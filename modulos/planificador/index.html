@@ -1,24 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sazón · Planificador</title>
-  <link rel="stylesheet" href="../../assets/css/sazon.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador - Crear Lista de Mercado | Agile Sazón</title>
+    <!-- Estilos globales (NO modificar sazon.css) -->
+    <link rel="stylesheet" href="../../assets/css/sazon.css">
+    <!-- Estilos propios del módulo planificador -->
+    <link rel="stylesheet" href="planificador.css">
 </head>
 <body>
-  <header data-layout="header"></header>
-  <main class="contenedor pagina-modulo">
-    <section class="bloque-modulo">
-      <h1>Módulo Planificador</h1>
-      <p>Base lista para desarrollar historias de usuario de planificador.</p>
-      <div id="planificador-estado" class="mensaje-estado" role="status"></div>
-    </section>
-  </main>
-  <footer data-layout="footer"></footer>
-  <script src="../../services/api.config.js"></script>
-  <script src="../../assets/js/layout.js"></script>
-  <script src="servicio.js"></script>
-  <script src="index.js"></script>
+    <main class="contenedor-planificador">
+        <div class="tarjeta-form">
+            <h2>Nueva Lista de Mercado</h2>
+            <p class="subtitulo">Módulo Planificador (Grupo 5)</p>
+            
+            <form id="formListaMercado">
+                <div class="grupo-form">
+                    <label for="nombre">Nombre de la lista:</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej. Compras quincenales">
+                </div>
+
+                <div class="grupo-form">
+                    <label for="presupuesto">Presupuesto estimado ($):</label>
+                    <input type="number" id="presupuesto" name="presupuesto" required min="0" step="1000" placeholder="Ej. 250000">
+                </div>
+
+                <div class="grupo-form">
+                    <label for="idPlanSemanal">Plan Semanal Asociado:</label>
+                    <select id="idPlanSemanal" name="idPlanSemanal" required>
+                        <option value="">Seleccione un plan...</option>
+                        <option value="10">Plan Semana 1 - Almuerzos Saludables</option>
+                        <option value="11">Plan Semana 2 - Menú Familiar</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-guardar">Generar Lista de Mercado</button>
+            </form>
+
+            <div id="mensajeExito" class="alerta-exito oculto">
+                
+            </div>
+        </div>
+    </main>
+
+    
+    <script src="../../assets/js/layout.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

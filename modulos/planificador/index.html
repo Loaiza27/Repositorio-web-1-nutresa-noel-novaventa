@@ -1,19 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sazón · Planificador</title>
   <link rel="stylesheet" href="../../assets/css/sazon.css">
   <link rel="stylesheet" href="planificador.css">
+  <link rel="stylesheet" href="PlanSemanal.css">
 </head>
 <body>
   <header data-layout="header"></header>
-  <main class="contenedor pagina-modulo">
-    <section class="bloque-modulo">
-      <h1>Módulo Planificador</h1>
-      <div id="planificador-estado" class="mensaje-estado" role="status"></div>
+
+  <main class="contenedor pagina-modulo planificador-pagina">
+    <div class="planificador-encabezado">
+      <h1>Mis planes semanales</h1>
+      <button id="planificador-btn-crear" class="btn btn-primario planificador-btn-primario" type="button">
+        + Crear plan semanal
+      </button>
+    </div>
+
+    <!-- Filtro por ID de usuario (listarPorIdUsuario) -->
+    <form id="planificador-form-filtro" class="bloque-modulo planificador-filtro" novalidate>
+      <fieldset class="planificador-fieldset">
+        <legend class="planificador-solo-lectores">Buscar planes por usuario</legend>
+        <div class="planificador-filtro-fila">
+          <label for="planificador-filtro-idusuario" class="planificador-filtro-etiqueta">ID de usuario</label>
+          <input
+            id="planificador-filtro-idusuario"
+            name="idUsuario"
+            type="number"
+            min="1"
+            step="1"
+            value="1"
+            placeholder="Ej: 1"
+            aria-describedby="planificador-error-filtro"
+          />
+          <button id="planificador-btn-buscar" class="btn planificador-btn-buscar" type="submit">Buscar planes</button>
+          <span id="planificador-contador" class="planificador-contador" role="status"></span>
+        </div>
+        <p id="planificador-error-filtro" class="planificador-error" role="alert"></p>
+      </fieldset>
+    </form>
+
+    <!-- Lista de planes -->
+    <div id="planificador-lista" class="planificador-grid"></div>
+
+    <!-- Estado vacío -->
+    <section id="planificador-vacio" class="bloque-modulo planificador-estado-vacio" aria-labelledby="planificador-vacio-titulo">
+      <span class="planificador-estado-vacio-etiqueta">ESTADO VACÍO · EJEMPLO PARA UN USUARIO SIN PLANES</span>
+      <h2 id="planificador-vacio-titulo" class="planificador-estado-vacio-titulo">Todavía no tienes planes semanales</h2>
+      <p>
+        Cuando crees tu primer plan semanal, aparecerá aquí para que puedas
+        consultarlo, editarlo o eliminarlo cuando quieras.
+      </p>
+      <button id="planificador-btn-crear-vacio" class="btn btn-primario planificador-btn-primario" type="button">
+        + Crear plan semanal
+      </button>
     </section>
+    <!-- ===== G5-LIS · inicio ===== -->
+
+<section class="bloque-modulo listamercado-contenedor">
+
+    <form id="listamercado-form">
+
+        <fieldset class="listamercado-fieldset">
+
+            <legend class="listamercado-legend">Nueva Lista de Mercado</legend>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-nombre" class="listamercado-label">Nombre de la lista:</label>
+
+                <input type="text" id="listamercado-nombre" name="nombre" required placeholder="Ej. Mercado quincenal" class="listamercado-input">
+
+            </div>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-presupuesto" class="listamercado-label">Presupuesto estimado ($):</label>
+
+                <input type="number" id="listamercado-presupuesto" name="presupuesto" required min="0" step="1000" class="listamercado-input">
+
+            </div>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-idPlanSemanal" class="listamercado-label">Plan Semanal Asociado:</label>
+
+                <select id="listamercado-idPlanSemanal" name="idPlanSemanal" required class="listamercado-select">
+
+                    <option value="">Cargando planes semanales...</option>
+
+                </select>
+
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primario listamercado-btn">Generar Lista de Mercado</button>
+
+        </fieldset>
+
+    </form>
+
+    
+
+    <div id="listamercado-mensaje" class="listamercado-oculto"></div>
+
+</section>
+
+<!-- ===== G5-LIS · fin ===== --> 
 
     <!-- ===== G5-COM · ComidaPlanificada · inicio ===== -->
     <section class="bloque-modulo planificador" aria-labelledby="tituloComidas">
@@ -47,8 +149,102 @@
       <div id="semana" class="semana" aria-labelledby="tituloSemana"></div>
     </section>
     <!-- ===== G5-COM · ComidaPlanificada · fin ===== -->
+
+    <!-- Crear / editar plan -->
+    <dialog id="planificador-modal-plan" class="planificador-modal" aria-labelledby="planificador-modal-titulo">
+      <form id="planificador-form-plan" novalidate>
+        <h2 id="planificador-modal-titulo" class="planificador-modal-titulo">Crear plan semanal</h2>
+        <input type="hidden" id="planificador-id" name="id" />
+
+        <fieldset class="planificador-fieldset">
+          <legend class="planificador-legend">Datos del plan semanal</legend>
+
+          <div class="planificador-grupo">
+            <label for="planificador-idusuario">ID de usuario <span aria-hidden="true">*</span></label>
+            <input
+              id="planificador-idusuario"
+              name="idUsuario"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Ej: 1"
+              required
+              aria-describedby="planificador-error-idusuario"
+            />
+            <p id="planificador-error-idusuario" class="planificador-error" role="alert"></p>
+          </div>
+
+          <div class="planificador-grupo">
+            <label for="planificador-nombre">Nombre del plan <span aria-hidden="true">*</span></label>
+            <input
+              id="planificador-nombre"
+              name="nombre"
+              type="text"
+              placeholder="Ej: Mi menú semanal"
+              required
+              aria-describedby="planificador-error-nombre"
+            />
+            <p id="planificador-error-nombre" class="planificador-error" role="alert"></p>
+          </div>
+
+          <div class="planificador-fila">
+            <div class="planificador-grupo">
+              <label for="planificador-fecha-inicio">Fecha de inicio <span aria-hidden="true">*</span></label>
+              <input
+                id="planificador-fecha-inicio"
+                name="fechaInicio"
+                type="date"
+                required
+                aria-describedby="planificador-error-fecha-inicio"
+              />
+              <p id="planificador-error-fecha-inicio" class="planificador-error" role="alert"></p>
+            </div>
+            <div class="planificador-grupo">
+              <label for="planificador-fecha-fin">Fecha de finalización <span aria-hidden="true">*</span></label>
+              <input
+                id="planificador-fecha-fin"
+                name="fechaFin"
+                type="date"
+                required
+                aria-describedby="planificador-error-fecha-fin"
+              />
+              <p id="planificador-error-fecha-fin" class="planificador-error" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="planificador-grupo">
+            <label for="planificador-activo">Estado del plan <span aria-hidden="true">*</span></label>
+            <select id="planificador-activo" name="activo" required aria-describedby="planificador-error-activo">
+              <option value="true">Activo</option>
+              <option value="false">Inactivo</option>
+            </select>
+            <p id="planificador-error-activo" class="planificador-error" role="alert"></p>
+          </div>
+        </fieldset>
+
+        <div class="planificador-modal-acciones">
+          <button id="planificador-btn-cancelar" class="btn planificador-btn-secundario" type="button">Cancelar</button>
+          <button id="planificador-btn-guardar" class="btn btn-primario planificador-btn-primario" type="submit">Guardar plan</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Consultar plan -->
+    <dialog id="planificador-modal-detalle" class="planificador-modal" aria-labelledby="planificador-modal-detalle-titulo">
+      <h2 id="planificador-modal-detalle-titulo" class="planificador-modal-titulo">Detalle del plan semanal</h2>
+      <dl id="planificador-detalle" class="planificador-detalle"></dl>
+      <div class="planificador-modal-acciones">
+        <button id="planificador-btn-cerrar-detalle" class="btn planificador-btn-secundario" type="button">Cerrar</button>
+      </div>
+    </dialog>
+
+    <!-- Mensajes -->
+    <div id="planificador-mensaje-exito" class="planificador-alerta-exito" role="status" aria-live="polite"></div>
+    <div id="planificador-mensaje-error" class="planificador-alerta-error" role="alert"></div>
   </main>
+
   <footer data-layout="footer"></footer>
+
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
   <script src="../../data/recetas.js"></script>

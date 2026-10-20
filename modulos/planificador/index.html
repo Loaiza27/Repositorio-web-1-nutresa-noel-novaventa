@@ -1,30 +1,178 @@
-<!-- ===== G5-LIS · inicio ===== -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sazón · Planificador</title>
+  <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="PlanSemanal.css">
+</head>
+<body>
+  <header data-layout="header"></header>
+
+  <main class="contenedor pagina-modulo">
+    <div class="seccion-encabezado">
+      <h1>Mis planes semanales</h1>
+      <button id="btnCrearPlan" class="btn-primario" type="button">
+        + Crear plan semanal
+      </button>
+    </div>
+
+    <!-- Filtro por ID de usuario -->
+    <section class="filtro-bar" aria-label="Filtro por usuario">
+      <label for="inputBuscarUsuario" class="filtro-label">ID de usuario</label>
+      <input
+        id="inputBuscarUsuario"
+        type="number"
+        min="1"
+        value="1042"
+        placeholder="Ej: 1042"
+        aria-label="ID de usuario a buscar"
+      />
+      <button id="btnBuscar" class="btn-buscar" type="button">Buscar planes</button>
+      <span id="contadorPlanes" class="contador-planes">3 planes encontrados</span>
+    </section>
+
+    <!-- Lista de planes -->
+    <div id="contenedorPlanes" class="grid-planes"></div>
+
+    <!-- Estado vacío -->
+    <section class="estado-vacio" id="contenedorVacio">
+      <span class="estado-vacio-etiqueta">ESTADO VACÍO · EJEMPLO PARA UN USUARIO SIN PLANES</span>
+      <h3>Todavía no tienes planes semanales</h3>
+      <p>
+        Cuando crees tu primer plan semanal, aparecerá aquí para que puedas
+        consultarlo, editarlo o eliminarlo cuando quieras.
+      </p>
+      <button class="btn-primario" type="button" id="btnCrearPlanVacio">
+        + Crear plan semanal
+      </button>
+    </section>
+    <!-- ===== G5-LIS · inicio ===== -->
+
 <section class="bloque-modulo listamercado-contenedor">
+
     <form id="listamercado-form">
+
         <fieldset class="listamercado-fieldset">
+
             <legend class="listamercado-legend">Nueva Lista de Mercado</legend>
 
+
+
             <div class="listamercado-grupo-form">
+
                 <label for="listamercado-nombre" class="listamercado-label">Nombre de la lista:</label>
+
                 <input type="text" id="listamercado-nombre" name="nombre" required placeholder="Ej. Mercado quincenal" class="listamercado-input">
+
             </div>
 
+
+
             <div class="listamercado-grupo-form">
+
                 <label for="listamercado-presupuesto" class="listamercado-label">Presupuesto estimado ($):</label>
+
                 <input type="number" id="listamercado-presupuesto" name="presupuesto" required min="0" step="1000" class="listamercado-input">
+
             </div>
 
+
+
             <div class="listamercado-grupo-form">
+
                 <label for="listamercado-idPlanSemanal" class="listamercado-label">Plan Semanal Asociado:</label>
+
                 <select id="listamercado-idPlanSemanal" name="idPlanSemanal" required class="listamercado-select">
+
                     <option value="">Cargando planes semanales...</option>
+
                 </select>
+
             </div>
+
+
 
             <button type="submit" class="btn btn-primario listamercado-btn">Generar Lista de Mercado</button>
+
         </fieldset>
+
     </form>
+
     
+
     <div id="listamercado-mensaje" class="listamercado-oculto"></div>
+
 </section>
-<!-- ===== G5-LIS · fin ===== -->
+
+<!-- ===== G5-LIS · fin ===== --> 
+
+   
+    <div id="modalPlan" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+      <div class="modal-contenido">
+        <h2 id="modalTitulo" class="modal-titulo">Crear plan semanal</h2>
+
+        <form id="formularioPlan" novalidate>
+          <input type="hidden" id="inputId" />
+
+          <div class="form-grupo">
+            <label for="inputIdUsuario">ID de usuario *</label>
+            <input id="inputIdUsuario" type="number" min="1" placeholder="Ej: 1042" required />
+          </div>
+
+          <div class="form-grupo">
+            <label for="inputNombre">Nombre del plan *</label>
+            <input id="inputNombre" type="text" placeholder="Ej: Mi menú semanal" required />
+          </div>
+
+          <div class="form-fila">
+            <div class="form-grupo">
+              <label for="inputFechaInicio">Fecha inicio *</label>
+              <input id="inputFechaInicio" type="date" required />
+            </div>
+            <div class="form-grupo">
+              <label for="inputFechaFin">Fecha fin *</label>
+              <input id="inputFechaFin" type="date" required />
+            </div>
+          </div>
+
+          <div class="form-grupo">
+            <label for="inputEstado">Estado</label>
+            <select id="inputEstado">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+
+          <div class="modal-acciones">
+            <button id="btnCancelar" class="btn-secundario" type="button">Cancelar</button>
+            <button id="btnGuardar" class="btn-primario" type="submit">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="modalDetalle" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTituloDetalle">
+      <div class="modal-contenido detalle">
+        <h2 id="modalTituloDetalle" class="modal-titulo">Detalle del plan semanal</h2>
+        <div id="detalleContenido"></div>
+        <div class="modal-acciones">
+          <button id="btnCerrarDetalle" class="btn-secundario" type="button">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  </main>
+
+  <footer data-layout="footer"></footer>
+
+  <script src="../../services/api.config.js"></script>
+  <script src="../../assets/js/layout.js"></script>
+  <script src="servicio.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

@@ -293,7 +293,7 @@
         this.cerrarModal();
         this.render();
       } catch (error) {
-        this._notificar("No se pudo guardar el plan.", true);
+        this._notificar(error.message || "No se pudo guardar el plan.", true);
       }
     }
 

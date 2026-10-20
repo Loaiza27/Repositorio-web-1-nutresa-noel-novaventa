@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sazón · Planificador</title>
   <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="planificador.css">
   <link rel="stylesheet" href="PlanSemanal.css">
 </head>
 <body>
@@ -116,6 +117,39 @@
 
 <!-- ===== G5-LIS · fin ===== --> 
 
+    <!-- ===== G5-COM · ComidaPlanificada · inicio ===== -->
+    <section class="bloque-modulo planificador" aria-labelledby="tituloComidas">
+      <h2 id="tituloComidas">Comidas de la semana</h2>
+      <p>Elige qué receta preparas, qué día y en qué momento del día.</p>
+
+      <form id="formComida" class="planificador-form" novalidate>
+        <fieldset>
+          <legend>Planificar una comida</legend>
+
+          <label for="diaSemana">Día</label>
+          <select id="diaSemana" name="díaSemana" required></select>
+
+          <label for="tipoComida">Momento del día</label>
+          <select id="tipoComida" name="tipoComida" required></select>
+
+          <label for="idReceta">Receta</label>
+          <select id="idReceta" name="idReceta" required>
+            <option value="">Selecciona una receta</option>
+          </select>
+
+          <label for="porciones">Porciones</label>
+          <input id="porciones" name="porciones" type="number" min="1" max="20" value="2" required>
+
+          <button type="submit">Agregar al plan</button>
+          <p id="mensaje" class="planificador-mensaje" role="status" aria-live="polite"></p>
+        </fieldset>
+      </form>
+
+      <h3 id="tituloSemana">Tu plan semanal</h3>
+      <div id="semana" class="semana" aria-labelledby="tituloSemana"></div>
+    </section>
+    <!-- ===== G5-COM · ComidaPlanificada · fin ===== -->
+
     <!-- Crear / editar plan -->
     <dialog id="planificador-modal-plan" class="planificador-modal" aria-labelledby="planificador-modal-titulo">
       <form id="planificador-form-plan" novalidate>
@@ -213,7 +247,10 @@
 
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
+  <script src="../../data/recetas.js"></script>
+  <script src="../../data/planificador.js"></script>
   <script src="servicio.js"></script>
+  <script src="comidaplanificada.servicio.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

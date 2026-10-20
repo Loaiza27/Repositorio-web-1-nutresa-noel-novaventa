@@ -4,25 +4,42 @@
  *   crear, buscarPorId, listarTodos, actualizar, eliminar, listarPorIdUsuario.
  * Los datos siguen el modelo PlanSemanal del back:
  *   id, nombre, fechaInicio, fechaFin, activo (Boolean), idUsuario.
- * Las llaves foráneas (idUsuario) usan solo ids del 1 al 5.
+ * Los ids de los planes van del 1 al 5: otras clases (p. ej. el select de
+ * Samudio) llenan sus opciones con listarTodos() y apuntan solo a esos ids.
+ * Las llaves foráneas (idUsuario) también usan solo ids del 1 al 5.
  */
 (function () {
   "use strict";
 
+  const ID_MINIMO = 1;
+  const ID_MAXIMO = 5;
+
   const planes = [
     { id: 1, nombre: "Mi menú semanal",             fechaInicio: "2026-10-12", fechaFin: "2026-10-18", activo: true,  idUsuario: 1 },
     { id: 2, nombre: "Semana de almuerzos ligeros", fechaInicio: "2026-10-05", fechaFin: "2026-10-11", activo: false, idUsuario: 1 },
-    { id: 3, nombre: "Menú familiar de fin de mes", fechaInicio: "2026-10-26", fechaFin: "2026-11-01", activo: false, idUsuario: 1 }
+    { id: 3, nombre: "Menú familiar de fin de mes", fechaInicio: "2026-10-26", fechaFin: "2026-11-01", activo: false, idUsuario: 1 },
+    { id: 4, nombre: "Menú vegetariano",            fechaInicio: "2026-10-12", fechaFin: "2026-10-18", activo: true,  idUsuario: 2 },
+    { id: 5, nombre: "Cenas rápidas",               fechaInicio: "2026-10-19", fechaFin: "2026-10-25", activo: false, idUsuario: 2 }
   ];
 
-  let siguienteId = 4;
+  // Menor id libre entre 1 y 5 (null si ya están los cinco ocupados).
+  function siguienteIdLibre() {
+    for (let id = ID_MINIMO; id <= ID_MAXIMO; id++) {
+      if (!planes.some((p) => p.id === id)) return id;
+    }
+    return null;
+  }
 
   const copia = (plan) => ({ ...plan });
 
   window.planSemanalServicio = {
     /** Guarda un plan nuevo y lo devuelve con su id asignado. */
     async crear(plan) {
-      const nuevo = { ...plan, id: siguienteId++ };
+      const id = siguienteIdLibre();
+      if (id === null) {
+        throw new Error("Solo se permiten planes con id del 1 al 5. Elimina uno para crear otro.");
+      }
+      const nuevo = { ...plan, id };
       planes.push(nuevo);
       return copia(nuevo);
     },

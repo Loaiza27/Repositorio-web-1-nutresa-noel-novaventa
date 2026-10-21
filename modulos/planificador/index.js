@@ -30,6 +30,7 @@
 
       this._cacheDom();
       this._enlazarEventos();
+      this.dom.filtroIdUsuario.value = this.idUsuarioFiltrado;
       this.render();
     }
 
@@ -73,6 +74,18 @@
         { entrada: this.dom.inputFechaFin, error: $("planificador-error-fecha-fin") },
         { entrada: this.dom.inputActivo, error: $("planificador-error-activo") }
       ];
+      this.dom.errorGeneral = $("planificador-error-general") || this._crearErrorGeneral();
+    }
+
+    // Si el index.html es una versión anterior sin este párrafo, se crea aquí
+    // para que el formulario siga funcionando.
+    _crearErrorGeneral() {
+      const parrafo = crearElemento("p", "planificador-error planificador-error-general");
+      parrafo.id = "planificador-error-general";
+      parrafo.setAttribute("role", "alert");
+      const acciones = this.dom.formPlan.querySelector(".planificador-modal-acciones");
+      if (acciones) acciones.before(parrafo); else this.dom.formPlan.append(parrafo);
+      return parrafo;
     }
 
     _enlazarEventos() {
@@ -154,6 +167,7 @@
     }
 
     _limpiarErrores() {
+      this.dom.errorGeneral.textContent = "";
       this.campos.forEach((campo) => {
         campo.error.textContent = "";
         campo.entrada.removeAttribute("aria-invalid");
@@ -206,6 +220,8 @@
         )
       );
 
+      tarjeta.append(this._crearDiasSemana(plan));
+
       const acciones = crearElemento("div", "planificador-tarjeta-acciones");
       const consultar = this._crearBotonAccion("Consultar", "planificador-btn-consultar", plan, () => this._abrirDetalle(plan.id));
       const editar = this._crearBotonAccion("Editar", "planificador-btn-editar", plan, () => this.abrirModalEdicion(plan));
@@ -214,6 +230,79 @@
 
       tarjeta.append(acciones);
       return tarjeta;
+    }
+
+    // Lun a Dom como en el planificador de Sazón: una tarjeta por día con la
+    // receta asignada o "Vacío" (con "+") si todavía no tiene.
+    _crearDiasSemana(plan) {
+      const DIAS = [
+        { clave: "lun", nombre: "Lun" },
+        { clave: "mar", nombre: "Mar" },
+        { clave: "mie", nombre: "Mié" },
+        { clave: "jue", nombre: "Jue" },
+        { clave: "vie", nombre: "Vie" },
+        { clave: "sab", nombre: "Sáb" },
+        { clave: "dom", nombre: "Dom" }
+      ];
+      const recetas = plan.dias || {};
+
+      const lista = crearElemento("ul", "planificador-dias");
+      lista.setAttribute("aria-label", "Recetas por día del plan");
+      DIAS.forEach((dia) => {
+        const receta = String(recetas[dia.clave] || "").trim();
+        const item = crearElemento("li", "planificador-dia-item");
+        const boton = crearElemento("button", "planificador-dia");
+        boton.type = "button";
+        boton.setAttribute(
+          "aria-label",
+          receta ? `${dia.nombre}: ${receta}. Cambiar receta` : `${dia.nombre}: vacío. Agregar receta`
+        );
+        boton.addEventListener("click", () => this._editarDia(plan, dia, receta));
+
+        const zona = crearElemento("span", "planificador-dia-zona");
+        zona.append(this._crearIcono(receta ? "receta" : "mas"));
+        const etiqueta = crearElemento("span", "planificador-dia-receta", receta || "Vacío");
+        if (receta) etiqueta.title = receta;
+
+        boton.append(crearElemento("span", "planificador-dia-nombre", dia.nombre), zona, etiqueta);
+        item.append(boton);
+        lista.append(item);
+      });
+      return lista;
+    }
+
+    _crearIcono(tipo) {
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("class", "planificador-dia-icono");
+      svg.setAttribute("aria-hidden", "true");
+      const trazo = (forma, atributos) => {
+        const el = document.createElementNS(NS, forma);
+        Object.entries(atributos).forEach(([k, v]) => el.setAttribute(k, v));
+        svg.append(el);
+      };
+      if (tipo === "mas") {
+        trazo("path", { d: "M12 6v12M6 12h12" });
+      } else {
+        trazo("path", { d: "M12 3c3 0 5 1.5 6.5 3.5 1.5 2 .5 4 2 5.5 1 1 .5 3.5-1.5 5.5-2 2-4.5 2.5-7 2.5s-5-.5-7-2.5c-2-2-2.5-4.5-1.5-5.5 1.5-1.5.5-3.5 2-5.5C7 4.5 9 3 12 3z" });
+        trazo("circle", { cx: "12", cy: "12", r: "3" });
+      }
+      return svg;
+    }
+
+    async _editarDia(plan, dia, actual) {
+      const texto = window.prompt(`Receta para ${dia.nombre} (déjalo vacío para quitarla):`, actual);
+      if (texto === null) return;
+      const receta = texto.trim().slice(0, 40);
+      try {
+        const dias = { ...(plan.dias || {}), [dia.clave]: receta };
+        const actualizado = await this.servicio.actualizar(plan.id, { ...plan, dias });
+        this._notificar(actualizado === null ? "El plan ya no existe." : "Día actualizado.", actualizado === null);
+        this.render();
+      } catch (error) {
+        this._notificar("No se pudo actualizar el día.", true);
+      }
     }
 
     _crearBotonAccion(texto, clase, plan, manejador) {
@@ -278,9 +367,11 @@
       if (!this._validarFormulario()) return;
 
       const datos = this._leerFormulario();
+      this.dom.errorGeneral.textContent = "";
       try {
         if (this.planEnEdicion) {
-          const actualizado = await this.servicio.actualizar(this.planEnEdicion.id, datos);
+          // Se conservan los campos que el formulario no edita (p. ej. las recetas por día).
+          const actualizado = await this.servicio.actualizar(this.planEnEdicion.id, { ...this.planEnEdicion, ...datos });
           if (actualizado === null) {
             this._notificar("El plan ya no existe.", true);
           } else {
@@ -290,10 +381,16 @@
           await this.servicio.crear(datos);
           this._notificar("Plan creado correctamente.");
         }
+        // Se muestra el usuario del plan guardado para que el plan se vea en la lista.
+        this.idUsuarioFiltrado = datos.idUsuario;
+        this.dom.filtroIdUsuario.value = datos.idUsuario;
+        this.dom.errorFiltro.textContent = "";
+        this.dom.filtroIdUsuario.removeAttribute("aria-invalid");
         this.cerrarModal();
         this.render();
       } catch (error) {
-        this._notificar(error.message || "No se pudo guardar el plan.", true);
+        // El modal está en la capa superior: el error se muestra dentro de él.
+        this.dom.errorGeneral.textContent = error.message || "No se pudo guardar el plan.";
       }
     }
 

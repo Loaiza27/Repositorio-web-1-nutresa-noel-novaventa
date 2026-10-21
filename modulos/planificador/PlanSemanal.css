@@ -198,6 +198,59 @@ body {
   color: var(--pl-texto-secundario);
 }
 
+/* Días de la semana (Lun a Dom): tarjeta con receta o "Vacío" */
+.planificador-dias {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+  gap: 6px;
+}
+.planificador-dia-item { min-width: 0; }
+.planificador-dia {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px 5px 7px;
+  font: inherit;
+  text-align: center;
+  background: var(--pl-blanco);
+  color: var(--pl-texto);
+  border: 1px solid var(--pl-borde-tarjeta);
+  border-radius: 12px;
+  cursor: pointer;
+}
+.planificador-dia:hover { border-color: #cdbf9f; }
+.planificador-dia-nombre { font-size: 13px; font-weight: 700; }
+.planificador-dia-zona {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(45deg, #ece3d1 0 7px, #f5efe3 7px 14px);
+  color: #b39b73;
+}
+.planificador-dia-icono {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.planificador-dia-receta {
+  font-size: 12px;
+  color: var(--pl-texto-secundario);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .planificador-tarjeta-acciones {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -337,3 +390,5 @@ body {
   .planificador-contador { margin-left: 0; width: 100%; }
   .planificador-fila { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
+
+.planificador-error-general:not(:empty) { margin-bottom: 8px; font-weight: 600; }

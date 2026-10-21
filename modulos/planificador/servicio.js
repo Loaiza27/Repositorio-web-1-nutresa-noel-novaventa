@@ -4,6 +4,7 @@
  *   crear, buscarPorId, listarTodos, actualizar, eliminar, listarPorIdUsuario.
  * Los datos siguen el modelo PlanSemanal del back:
  *   id, nombre, fechaInicio, fechaFin, activo (Boolean), idUsuario.
+ * Campo extra solo de la interfaz: dias (receta de lun a dom, texto vacío = "Vacío").
  * Los ids de los planes van del 1 al 5: otras clases (p. ej. el select de
  * Samudio) llenan sus opciones con listarTodos() y apuntan solo a esos ids.
  * Las llaves foráneas (idUsuario) también usan solo ids del 1 al 5.
@@ -15,11 +16,12 @@
   const ID_MAXIMO = 5;
 
   const planes = [
-    { id: 1, nombre: "Mi menú semanal",             fechaInicio: "2026-10-12", fechaFin: "2026-10-18", activo: true,  idUsuario: 1 },
-    { id: 2, nombre: "Semana de almuerzos ligeros", fechaInicio: "2026-10-05", fechaFin: "2026-10-11", activo: false, idUsuario: 1 },
-    { id: 3, nombre: "Menú familiar de fin de mes", fechaInicio: "2026-10-26", fechaFin: "2026-11-01", activo: false, idUsuario: 1 },
-    { id: 4, nombre: "Menú vegetariano",            fechaInicio: "2026-10-12", fechaFin: "2026-10-18", activo: true,  idUsuario: 2 },
-    { id: 5, nombre: "Cenas rápidas",               fechaInicio: "2026-10-19", fechaFin: "2026-10-25", activo: false, idUsuario: 2 }
+    { id: 1, nombre: "Mi menú semanal",             fechaInicio: "2026-10-12", fechaFin: "2026-10-18", activo: true,  idUsuario: 1,
+      dias: { lun: "Pasta", mar: "Arroz", mie: "", jue: "Sopa", vie: "Tortilla" } },
+    { id: 2, nombre: "Semana de almuerzos ligeros", fechaInicio: "2026-10-05", fechaFin: "2026-10-11", activo: false, idUsuario: 1,
+      dias: { lun: "Lentejas", mar: "", mie: "Pollo", jue: "", vie: "Pizza" } },
+    { id: 3, nombre: "Menú familiar de fin de mes", fechaInicio: "2026-10-26", fechaFin: "2026-11-01", activo: false, idUsuario: 1,
+      dias: { lun: "", mar: "", mie: "", jue: "", vie: "" } }
   ];
 
   // Menor id libre entre 1 y 5 (null si ya están los cinco ocupados).
@@ -30,7 +32,7 @@
     return null;
   }
 
-  const copia = (plan) => ({ ...plan });
+  const copia = (plan) => ({ ...plan, dias: plan.dias ? { ...plan.dias } : undefined });
 
   window.planSemanalServicio = {
     /** Guarda un plan nuevo y lo devuelve con su id asignado. */

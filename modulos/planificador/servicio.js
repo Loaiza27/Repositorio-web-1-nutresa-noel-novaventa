@@ -79,3 +79,20 @@
     }
   };
 })();
+
+/* ===== G5-LIS · inicio · Mock de listaMercadoServicio =====
+   Asume el módulo de Samudio (Lista de Mercado) pero no lo define nadie más.
+   Aquí se guarda en memoria para la demo. En producción, esto se sustituye
+   por la llamada fetch() al backend Java. */
+(function () {
+  "use strict";
+  const listasCreadas = [];
+  window.listaMercadoServicio = {
+    async crear(lista) {
+      listasCreadas.push(lista);
+      return { ...lista, id: listasCreadas.length };
+    },
+    _listasCreadas: listasCreadas
+  };
+})();
+/* ===== G5-LIS · fin ===== */

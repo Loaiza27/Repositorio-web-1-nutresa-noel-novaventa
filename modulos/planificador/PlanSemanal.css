@@ -59,7 +59,6 @@ body {
   min-width: 0;
 }
 
-/* Encabezado */
 .planificador-encabezado {
   display: flex;
   justify-content: space-between;
@@ -75,7 +74,6 @@ body {
   font-weight: 700;
 }
 
-/* Botones */
 .planificador-btn-primario {
   background: var(--pl-verde);
   color: var(--pl-blanco);
@@ -120,7 +118,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Filtro por usuario */
 .planificador-filtro {
   background: var(--pl-blanco);
   border: 1px solid var(--pl-borde-tarjeta);
@@ -153,7 +150,6 @@ body {
   font-size: 14px;
 }
 
-/* Tarjetas */
 .planificador-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -198,7 +194,6 @@ body {
   color: var(--pl-texto-secundario);
 }
 
-/* Días de la semana (Lun a Dom): tarjeta con receta o "Vacío" */
 .planificador-dias {
   list-style: none;
   margin: 0;
@@ -274,7 +269,6 @@ body {
 .planificador-btn-editar { background: var(--pl-verde-claro); color: var(--pl-verde); }
 .planificador-btn-eliminar { background: var(--pl-eliminar-bg); color: var(--pl-eliminar-texto); }
 
-/* Estado vacío */
 .planificador-estado-vacio {
   background: transparent;
   border: 2px dashed var(--pl-borde-tarjeta);
@@ -295,7 +289,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Modales (<dialog>) */
 .planificador-modal {
   border: 0;
   border-radius: var(--pl-radio-tarjeta);
@@ -351,7 +344,6 @@ body {
   border-top: 1px solid var(--pl-borde-tarjeta);
 }
 
-/* Detalle */
 .planificador-detalle { margin: 0; }
 .planificador-detalle-fila {
   display: flex;
@@ -363,7 +355,6 @@ body {
 .planificador-detalle-etiqueta { color: var(--pl-texto-secundario); }
 .planificador-detalle-valor { margin: 0; font-weight: 700; text-align: right; }
 
-/* Mensajes */
 .planificador-alerta-exito,
 .planificador-alerta-error {
   position: fixed;
@@ -381,7 +372,6 @@ body {
 .planificador-alerta-exito.planificador-visible,
 .planificador-alerta-error.planificador-visible { display: block; }
 
-/* Responsivo */
 @media (max-width: 900px) {
   .planificador-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -392,3 +382,99 @@ body {
 }
 
 .planificador-error-general:not(:empty) { margin-bottom: 8px; font-weight: 600; }
+
+/* ===== G5-LIS · inicio · Estilos del módulo Lista de Mercado (Samudio) =====
+   Se mantienen aislados con el prefijo listamercado-. */
+
+.listamercado-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.listamercado-fieldset {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 450px;
+  border-top: 5px solid #d35400;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  margin: 0 auto;
+}
+
+.listamercado-legend {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.listamercado-grupo-form {
+  margin-bottom: 18px;
+}
+
+.listamercado-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #34495e;
+}
+
+.listamercado-input,
+.listamercado-select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+}
+
+.listamercado-input:focus,
+.listamercado-select:focus {
+  border-color: #d35400;
+  outline: none;
+}
+
+.listamercado-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.listamercado-alerta-exito {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.listamercado-alerta-error {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.listamercado-oculto {
+  display: none;
+}
+
+/* ===== G5-LIS · fin ===== */

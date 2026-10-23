@@ -77,8 +77,6 @@
       this.dom.errorGeneral = $("planificador-error-general") || this._crearErrorGeneral();
     }
 
-    // Si el index.html es una versión anterior sin este párrafo, se crea aquí
-    // para que el formulario siga funcionando.
     _crearErrorGeneral() {
       const parrafo = crearElemento("p", "planificador-error planificador-error-general");
       parrafo.id = "planificador-error-general";
@@ -101,11 +99,10 @@
       this.dom.btnCancelar.addEventListener("click", () => this.cerrarModal());
       this.dom.btnCerrarDetalle.addEventListener("click", () => this.cerrarModalDetalle());
 
-      // Esc cierra el <dialog>: se reinicia el estado de edición.
       this.dom.modalPlan.addEventListener("close", () => { this.planEnEdicion = null; });
     }
 
-    /* ---------- Validaciones (mismo contrato que PlanSemanalValidación) ---------- */
+    /* ---------- Validaciones ---------- */
 
     validarNombre(nombre) {
       const texto = (nombre || "").trim();
@@ -232,8 +229,6 @@
       return tarjeta;
     }
 
-    // Lun a Dom como en el planificador de Sazón: una tarjeta por día con la
-    // receta asignada o "Vacío" (con "+") si todavía no tiene.
     _crearDiasSemana(plan) {
       const DIAS = [
         { clave: "lun", nombre: "Lun" },
@@ -370,7 +365,6 @@
       this.dom.errorGeneral.textContent = "";
       try {
         if (this.planEnEdicion) {
-          // Se conservan los campos que el formulario no edita (p. ej. las recetas por día).
           const actualizado = await this.servicio.actualizar(this.planEnEdicion.id, { ...this.planEnEdicion, ...datos });
           if (actualizado === null) {
             this._notificar("El plan ya no existe.", true);
@@ -381,7 +375,6 @@
           await this.servicio.crear(datos);
           this._notificar("Plan creado correctamente.");
         }
-        // Se muestra el usuario del plan guardado para que el plan se vea en la lista.
         this.idUsuarioFiltrado = datos.idUsuario;
         this.dom.filtroIdUsuario.value = datos.idUsuario;
         this.dom.errorFiltro.textContent = "";
@@ -389,7 +382,6 @@
         this.cerrarModal();
         this.render();
       } catch (error) {
-        // El modal está en la capa superior: el error se muestra dentro de él.
         this.dom.errorGeneral.textContent = error.message || "No se pudo guardar el plan.";
       }
     }
@@ -465,3 +457,93 @@
     window.planSemanalApp = new PlanSemanal(window.planSemanalServicio);
   });
 })();
+
+/* ===== G5-LIS · inicio · Módulo Lista de Mercado (Samudio) =====
+   Consume window.planSemanalServicio.listarTodos() para poblar el select
+   de planes semanales disponibles. Se ejecuta en el mismo DOMContentLoaded
+   que el planificador (su propio IIFE aísla el alcance). */
+(function () {
+  "use strict";
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const formLista = document.getElementById('listamercado-form');
+    if (!formLista) return;
+
+    const selectPlan = document.getElementById('listamercado-idPlanSemanal');
+    const mensajeContenedor = document.getElementById('listamercado-mensaje');
+
+    const mostrarMensaje = (texto, tipo) => {
+      mensajeContenedor.textContent = texto;
+      mensajeContenedor.setAttribute('role', tipo === 'error' ? 'alert' : 'status');
+      mensajeContenedor.className = tipo === 'error' ? 'listamercado-alerta-error' : 'listamercado-alerta-exito';
+      mensajeContenedor.style.display = 'block';
+      setTimeout(() => {
+        mensajeContenedor.style.display = 'none';
+      }, 4000);
+    };
+
+    const cargarPlanesSemanales = async () => {
+      try {
+        const planes = await window.planSemanalServicio.listarTodos();
+
+        selectPlan.innerHTML = '<option value="">Seleccione un plan...</option>';
+
+        if (planes && planes.length > 0) {
+          planes.forEach((plan) => {
+            const opcion = document.createElement("option");
+            opcion.value = plan.id;
+            opcion.textContent = plan.nombre;
+            selectPlan.append(opcion);
+          });
+        } else {
+          selectPlan.innerHTML = '<option value="">No hay planes creados aún</option>';
+        }
+      } catch (error) {
+        console.error(error);
+        selectPlan.innerHTML = '<option value="">Error al cargar planes</option>';
+      }
+    };
+
+    cargarPlanesSemanales();
+
+    formLista.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('listamercado-nombre').value.trim();
+      const presupuestoRaw = document.getElementById('listamercado-presupuesto').value;
+      const idPlanSemanal = document.getElementById('listamercado-idPlanSemanal').value;
+
+      const presupuesto = parseFloat(presupuestoRaw);
+      if (!nombre || isNaN(presupuesto) || presupuesto <= 0 || !idPlanSemanal) {
+        mostrarMensaje("Faltan datos. El presupuesto debe ser válido y mayor a 0.", "error");
+        return;
+      }
+
+      const hoy = new Date();
+      const year = hoy.getFullYear();
+      const month = String(hoy.getMonth() + 1).padStart(2, '0');
+      const day = String(hoy.getDate()).padStart(2, '0');
+      const fechaCreacionLocal = `${year}-${month}-${day}`;
+
+      const nuevaListaMercado = {
+        id: null,
+        nombre: nombre,
+        fechaCreacion: fechaCreacionLocal,
+        presupuesto: presupuesto,
+        completada: false,
+        idPlanSemanal: parseInt(idPlanSemanal)
+      };
+
+      try {
+        await window.listaMercadoServicio.crear(nuevaListaMercado);
+        console.log("=== Payload Guardado ===", nuevaListaMercado);
+        mostrarMensaje("¡Lista de mercado creada con éxito!", "exito");
+        formLista.reset();
+      } catch (error) {
+        console.error(error);
+        mostrarMensaje("Ocurrió un error al intentar guardar la lista.", "error");
+      }
+    });
+  });
+})();
+/* ===== G5-LIS · fin ===== */

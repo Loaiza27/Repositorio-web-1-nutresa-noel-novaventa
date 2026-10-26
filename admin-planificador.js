@@ -108,15 +108,29 @@ function pintarEstados({ total, conteo }) {
 }
 
 function filaHTML(plan) {
-  const etiqueta = plan.etiqueta ? `<span class="etiqueta">${esc(plan.etiqueta)}</span>` : '';
+  const etiqueta = plan.etiqueta ? `<span class="ml-2 px-2 py-0.5 rounded text-xs bg-gray-100 text-gray-500 border border-gray-200">${esc(plan.etiqueta)}</span>` : '';
+  
+  const coloresEstado = {
+    activo: 'bg-green-100 text-green-700',
+    borrador: 'bg-yellow-100 text-yellow-700',
+    archivado: 'bg-gray-100 text-gray-600'
+  };
+  const claseEstado = coloresEstado[plan.estado] || 'bg-gray-100 text-gray-600';
+
   return `
-    <tr>
-      <td>${esc(plan.usuarioId)}</td>
-      <td><span class="nombre-plan">${esc(plan.nombre)}</span> ${etiqueta}</td>
-      <td>${rango(plan.fechaInicio, plan.fechaFin)}</td>
-      <td><strong>${numero(plan.comidasAsignadas)}</strong> / ${COMIDAS_POR_PLAN}</td>
-      <td><span class="badge badge-${esc(plan.estado)}">${ETIQUETA_ESTADO[plan.estado] ?? esc(plan.estado)}</span></td>
-      <td><button class="btn-ver" data-id="${esc(plan.id)}" aria-label="Ver auditoría">Ver</button></td>
+    <tr class="hover:bg-gray-50 transition-colors border-b border-marfil-2">
+      <td class="py-3 px-4 font-mono text-xs text-gray-500">${esc(plan.usuarioId)}</td>
+      <td class="py-3 px-4 font-bold text-verde-noche">${esc(plan.nombre)} ${etiqueta}</td>
+      <td class="py-3 px-4 text-gray-500">${rango(plan.fechaInicio, plan.fechaFin)}</td>
+      <td class="py-3 px-4 text-verde-noche"><strong>${numero(plan.comidasAsignadas)}</strong> <span class="text-gray-400 text-xs">/ ${COMIDAS_POR_PLAN}</span></td>
+      <td class="py-3 px-4 text-center">
+        <span class="px-3 py-1 rounded-full text-xs font-semibold ${claseEstado}">
+          ${ETIQUETA_ESTADO[plan.estado] ?? esc(plan.estado)}
+        </span>
+      </td>
+      <td class="py-3 px-4 text-right">
+        <button class="text-verde-nutresa hover:text-green-800 font-bold text-sm transition-colors" data-id="${esc(plan.id)}">Ver Detalle &rarr;</button>
+      </td>
     </tr>`;
 }
 

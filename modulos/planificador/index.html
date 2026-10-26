@@ -6,6 +6,7 @@
   <title>Sazón · Planificador</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="planificador.css">
   <link rel="stylesheet" href="PlanSemanal.css">
 </head>
 <body>
@@ -94,6 +95,98 @@
       </form>
       <div id="listamercado-mensaje" class="listamercado-oculto"></div>
     </section>
+    <!-- ===== G5-LIS · inicio ===== -->
+
+<section class="bloque-modulo listamercado-contenedor">
+
+    <form id="listamercado-form">
+
+        <fieldset class="listamercado-fieldset">
+
+            <legend class="listamercado-legend">Nueva Lista de Mercado</legend>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-nombre" class="listamercado-label">Nombre de la lista:</label>
+
+                <input type="text" id="listamercado-nombre" name="nombre" required placeholder="Ej. Mercado quincenal" class="listamercado-input">
+
+            </div>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-presupuesto" class="listamercado-label">Presupuesto estimado ($):</label>
+
+                <input type="number" id="listamercado-presupuesto" name="presupuesto" required min="0" step="1000" class="listamercado-input">
+
+            </div>
+
+
+
+            <div class="listamercado-grupo-form">
+
+                <label for="listamercado-idPlanSemanal" class="listamercado-label">Plan Semanal Asociado:</label>
+
+                <select id="listamercado-idPlanSemanal" name="idPlanSemanal" required class="listamercado-select">
+
+                    <option value="">Cargando planes semanales...</option>
+
+                </select>
+
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primario listamercado-btn">Generar Lista de Mercado</button>
+
+        </fieldset>
+
+    </form>
+
+    
+
+    <div id="listamercado-mensaje" class="listamercado-oculto"></div>
+
+</section>
+
+<!-- ===== G5-LIS · fin ===== --> 
+
+    <!-- ===== G5-COM · ComidaPlanificada · inicio ===== -->
+    <section class="bloque-modulo planificador" aria-labelledby="tituloComidas">
+      <h2 id="tituloComidas">Comidas de la semana</h2>
+      <p>Elige qué receta preparas, qué día y en qué momento del día.</p>
+
+      <form id="formComida" class="planificador-form" novalidate>
+        <fieldset>
+          <legend>Planificar una comida</legend>
+
+          <label for="diaSemana">Día</label>
+          <select id="diaSemana" name="díaSemana" required></select>
+
+          <label for="tipoComida">Momento del día</label>
+          <select id="tipoComida" name="tipoComida" required></select>
+
+          <label for="idReceta">Receta</label>
+          <select id="idReceta" name="idReceta" required>
+            <option value="">Selecciona una receta</option>
+          </select>
+
+          <label for="porciones">Porciones</label>
+          <input id="porciones" name="porciones" type="number" min="1" max="20" value="2" required>
+
+          <button type="submit">Agregar al plan</button>
+          <p id="mensaje" class="planificador-mensaje" role="status" aria-live="polite"></p>
+        </fieldset>
+      </form>
+
+      <h3 id="tituloSemana">Tu plan semanal</h3>
+      <div id="semana" class="semana" aria-labelledby="tituloSemana"></div>
+    </section>
+    <!-- ===== G5-COM · ComidaPlanificada · fin ===== -->
 
     <dialog id="planificador-modal-plan" class="planificador-modal" aria-labelledby="planificador-modal-titulo">
       <form id="planificador-form-plan" novalidate>
@@ -161,7 +254,15 @@
 
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
+<<<<<<< HEAD
   <script src="servicio.js" charset="utf-8"></script>
   <script src="index.js" charset="utf-8"></script>
+=======
+  <script src="../../data/recetas.js"></script>
+  <script src="../../data/planificador.js"></script>
+  <script src="servicio.js"></script>
+  <script src="comidaplanificada.servicio.js"></script>
+  <script src="index.js"></script>
+>>>>>>> upstream/develop
 </body>
 </html>

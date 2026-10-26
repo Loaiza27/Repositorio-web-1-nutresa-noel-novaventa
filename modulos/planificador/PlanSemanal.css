@@ -1,28 +1,25 @@
-/* Planificador · Mis planes semanales
-   Todas las clases e ids del módulo llevan el prefijo "planificador-". */
+/* Planificador · Mis planes semanales */
 
+/* Variables corporativas: se toman de sazon.css cuando existen; si no, valor de respaldo.
+   AJUSTAR los nombres --sazon-* a los que realmente defina assets/css/sazon.css. */
 :root {
-  --pl-verde: #2d5a27;
+  --pl-verde: var(--sazon-verde, #2d5a27);
   --pl-verde-hover: #22441e;
   --pl-verde-claro: #e3ede0;
-  --pl-crema: #f5f1e8;
+  --pl-crema: var(--sazon-crema, #f5f1e8);
   --pl-blanco: #ffffff;
   --pl-borde-tarjeta: #ece4d4;
   --pl-gris-borde: #e0e0e0;
-
-  --pl-texto: #2c3328;
+  --pl-texto: var(--sazon-texto, #2c3328);
   --pl-texto-secundario: #5f6670;
   --pl-texto-tenue: #7a756a;
-
   --pl-activo-bg: #e6f3e6;
   --pl-activo-texto: #2d5a27;
   --pl-inactivo-bg: #f0ece1;
   --pl-inactivo-texto: #6b665c;
-
   --pl-eliminar-bg: #fde8e8;
   --pl-eliminar-texto: #b8332e;
   --pl-error: #b3402f;
-
   --pl-radio-boton: 12px;
   --pl-radio-tarjeta: 16px;
   --pl-sombra: 0 4px 12px rgba(0, 0, 0, 0.04);
@@ -34,78 +31,39 @@ body {
   color: var(--pl-texto);
 }
 
-.planificador-pagina {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
+.planificador-pagina { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
 
 .planificador-solo-lectores {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  position: absolute; width: 1px; height: 1px; margin: -1px;
+  padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
 }
 
-.planificador-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-}
+.planificador-fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 .planificador-encabezado {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 24px;
 }
-
-.planificador-encabezado h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-}
+.planificador-encabezado h1 { margin: 0; font-size: 28px; font-weight: 700; }
 
 .planificador-btn-primario {
-  background: var(--pl-verde);
-  color: var(--pl-blanco);
-  border: none;
-  padding: 12px 24px;
-  border-radius: var(--pl-radio-boton);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
+  background: var(--pl-verde); color: var(--pl-blanco); border: none;
+  padding: 12px 24px; border-radius: var(--pl-radio-boton);
+  font: inherit; font-weight: 600; cursor: pointer;
 }
 .planificador-btn-primario:hover { background: var(--pl-verde-hover); }
 
 .planificador-btn-secundario {
-  background: var(--pl-blanco);
-  color: var(--pl-texto-secundario);
-  border: 1px solid var(--pl-gris-borde);
-  padding: 12px 24px;
-  border-radius: var(--pl-radio-boton);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
+  background: var(--pl-blanco); color: var(--pl-texto-secundario);
+  border: 1px solid var(--pl-gris-borde); padding: 12px 24px;
+  border-radius: var(--pl-radio-boton); font: inherit; font-weight: 600; cursor: pointer;
 }
 
 .planificador-btn-buscar {
-  background: var(--pl-verde-claro);
-  color: var(--pl-verde);
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--pl-radio-boton);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
+  background: var(--pl-verde-claro); color: var(--pl-verde); border: none;
+  padding: 10px 20px; border-radius: var(--pl-radio-boton);
+  font: inherit; font-weight: 600; cursor: pointer;
 }
 
 .planificador-pagina button:focus-visible,
@@ -114,267 +72,152 @@ body {
 .planificador-modal button:focus-visible,
 .planificador-modal input:focus-visible,
 .planificador-modal select:focus-visible {
-  outline: 3px solid #1f6feb;
-  outline-offset: 2px;
+  outline: 3px solid #1f6feb; outline-offset: 2px;
 }
 
 .planificador-filtro {
-  background: var(--pl-blanco);
-  border: 1px solid var(--pl-borde-tarjeta);
-  border-radius: var(--pl-radio-tarjeta);
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--pl-sombra);
+  background: var(--pl-blanco); border: 1px solid var(--pl-borde-tarjeta);
+  border-radius: var(--pl-radio-tarjeta); padding: 16px 24px;
+  margin-bottom: 24px; box-shadow: var(--pl-sombra);
 }
-
-.planificador-filtro-fila {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
+.planificador-filtro-fila { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
 .planificador-filtro-etiqueta { font-weight: 700; }
-
 .planificador-filtro input[type="number"] {
-  border: 1px solid var(--pl-gris-borde);
-  padding: 9px 16px;
-  border-radius: 20px;
-  font: inherit;
-  width: 140px;
+  border: 1px solid var(--pl-gris-borde); padding: 9px 16px;
+  border-radius: 20px; font: inherit; width: 140px;
 }
-
-.planificador-contador {
-  margin-left: auto;
-  color: var(--pl-texto-secundario);
-  font-size: 14px;
-}
+.planificador-contador { margin-left: auto; color: var(--pl-texto-secundario); font-size: 14px; }
 
 .planificador-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  margin-bottom: 30px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px; margin-bottom: 30px;
 }
 
 .planificador-tarjeta {
-  background: var(--pl-blanco);
-  border: 1px solid var(--pl-borde-tarjeta);
-  border-radius: var(--pl-radio-tarjeta);
-  padding: 20px;
-  box-shadow: var(--pl-sombra);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  background: var(--pl-blanco); border: 1px solid var(--pl-borde-tarjeta);
+  border-radius: var(--pl-radio-tarjeta); padding: 20px;
+  box-shadow: var(--pl-sombra); position: relative;
+  display: flex; flex-direction: column; gap: 12px;
 }
 
 .planificador-estado {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+  position: absolute; top: 20px; right: 20px;
+  padding: 4px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
 }
 .planificador-estado-activo { background: var(--pl-activo-bg); color: var(--pl-activo-texto); }
 .planificador-estado-inactivo { background: var(--pl-inactivo-bg); color: var(--pl-inactivo-texto); }
 
-.planificador-tarjeta-nombre {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  padding-right: 80px;
-}
-
-.planificador-tarjeta-fechas {
-  margin: 0;
-  font-size: 14px;
-  color: var(--pl-texto-secundario);
-}
+.planificador-tarjeta-nombre { margin: 0; font-size: 18px; font-weight: 700; padding-right: 80px; }
+.planificador-tarjeta-fechas { margin: 0; font-size: 14px; color: var(--pl-texto-secundario); }
 
 .planificador-dias {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
-  gap: 6px;
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;
 }
 .planificador-dia-item { min-width: 0; }
 .planificador-dia {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 6px;
-  padding: 8px 5px 7px;
-  font: inherit;
-  text-align: center;
-  background: var(--pl-blanco);
-  color: var(--pl-texto);
-  border: 1px solid var(--pl-borde-tarjeta);
-  border-radius: 12px;
-  cursor: pointer;
+  width: 100%; display: flex; flex-direction: column; align-items: stretch;
+  gap: 6px; padding: 10px 6px 8px; font: inherit; text-align: center;
+  background: var(--pl-blanco); color: var(--pl-texto);
+  border: 1px solid var(--pl-borde-tarjeta); border-radius: 12px; cursor: pointer;
 }
 .planificador-dia:hover { border-color: #cdbf9f; }
-.planificador-dia-nombre { font-size: 13px; font-weight: 700; }
+.planificador-dia-nombre { font-size: 14px; font-weight: 700; }
 .planificador-dia-zona {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  height: 28px; border-radius: 8px;
   background: repeating-linear-gradient(45deg, #ece3d1 0 7px, #f5efe3 7px 14px);
   color: #b39b73;
 }
 .planificador-dia-icono {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  width: 18px; height: 18px; fill: none; stroke: currentColor;
+  stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
 }
 .planificador-dia-receta {
-  font-size: 12px;
-  color: var(--pl-texto-secundario);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 12px; color: var(--pl-texto-secundario);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
 .planificador-tarjeta-acciones {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 8px;
-  padding-top: 12px;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px; margin-top: 8px; padding-top: 12px;
   border-top: 1px solid var(--pl-borde-tarjeta);
 }
-
 .planificador-btn-accion {
-  border: 1px solid transparent;
-  padding: 9px 8px;
-  border-radius: 10px;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
+  border: 1px solid transparent; padding: 9px 8px;
+  border-radius: 10px; font: inherit; font-size: 13px;
+  font-weight: 600; cursor: pointer; text-align: center;
 }
 .planificador-btn-consultar { background: var(--pl-blanco); border-color: var(--pl-gris-borde); color: var(--pl-texto); }
 .planificador-btn-editar { background: var(--pl-verde-claro); color: var(--pl-verde); }
 .planificador-btn-eliminar { background: var(--pl-eliminar-bg); color: var(--pl-eliminar-texto); }
 
+.planificador-estado-vacio[hidden] { display: none; }
 .planificador-estado-vacio {
-  background: transparent;
-  border: 2px dashed var(--pl-borde-tarjeta);
-  border-radius: var(--pl-radio-tarjeta);
-  padding: 40px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  background: transparent; border: 2px dashed var(--pl-borde-tarjeta);
+  border-radius: var(--pl-radio-tarjeta); padding: 40px 20px;
+  text-align: center; display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
 }
 .planificador-estado-vacio p { margin: 0; max-width: 460px; color: var(--pl-texto-secundario); }
 .planificador-estado-vacio-titulo { margin: 0; font-size: 20px; font-weight: 700; }
 .planificador-estado-vacio-etiqueta {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--pl-texto-tenue);
+  font-size: 12px; font-weight: 700; color: var(--pl-texto-tenue);
   letter-spacing: 0.5px;
 }
 
 .planificador-modal {
-  border: 0;
-  border-radius: var(--pl-radio-tarjeta);
-  padding: 30px;
-  width: calc(100% - 32px);
-  max-width: 480px;
-  color: var(--pl-texto);
+  border: 0; border-radius: var(--pl-radio-tarjeta); padding: 30px;
+  width: calc(100% - 32px); max-width: 480px; color: var(--pl-texto);
   background: var(--pl-blanco);
 }
 .planificador-modal::backdrop { background: rgba(0, 0, 0, 0.4); }
-
 .planificador-modal-titulo { margin: 0 0 16px; font-size: 22px; }
 .planificador-legend {
-  padding: 0;
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--pl-texto-secundario);
+  padding: 0; margin-bottom: 12px; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase; color: var(--pl-texto-secundario);
 }
 
 .planificador-grupo { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-width: 0; }
 .planificador-grupo label { font-weight: 700; font-size: 14px; }
-.planificador-grupo input,
-.planificador-grupo select {
-  font: inherit;
-  padding: 10px 12px;
-  border: 1px solid var(--pl-gris-borde);
-  border-radius: var(--pl-radio-boton);
-  background: var(--pl-blanco);
-  color: var(--pl-texto);
-  min-width: 0;
+.planificador-grupo input, .planificador-grupo select {
+  font: inherit; padding: 10px 12px; border: 1px solid var(--pl-gris-borde);
+  border-radius: var(--pl-radio-boton); background: var(--pl-blanco);
+  color: var(--pl-texto); min-width: 0;
 }
 .planificador-grupo [aria-invalid="true"] { border: 1.5px solid var(--pl-error); background: #fff8f6; }
 
 .planificador-fila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 
-.planificador-error {
-  margin: 0;
-  min-height: 0;
-  font-size: 13px;
-  color: var(--pl-error);
-}
+.planificador-error { margin: 0; min-height: 0; font-size: 13px; color: var(--pl-error); }
 .planificador-filtro .planificador-error:not(:empty) { margin-top: 8px; }
 
 .planificador-modal-acciones {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 8px;
-  padding-top: 16px;
+  display: flex; justify-content: flex-end; gap: 12px;
+  margin-top: 8px; padding-top: 16px;
   border-top: 1px solid var(--pl-borde-tarjeta);
 }
 
 .planificador-detalle { margin: 0; }
 .planificador-detalle-fila {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--pl-borde-tarjeta);
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 10px 0; border-bottom: 1px solid var(--pl-borde-tarjeta);
 }
 .planificador-detalle-etiqueta { color: var(--pl-texto-secundario); }
 .planificador-detalle-valor { margin: 0; font-weight: 700; text-align: right; }
 
-.planificador-alerta-exito,
-.planificador-alerta-error {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--pl-blanco);
-  padding: 10px 20px;
-  border-radius: 10px;
-  display: none;
-  z-index: 1100;
+.planificador-alerta-exito, .planificador-alerta-error {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  color: var(--pl-blanco); padding: 10px 20px; border-radius: 10px;
+  display: none; z-index: 1100;
 }
 .planificador-alerta-exito { background: var(--pl-verde); }
 .planificador-alerta-error { background: var(--pl-eliminar-texto); }
 .planificador-alerta-exito.planificador-visible,
 .planificador-alerta-error.planificador-visible { display: block; }
 
-@media (max-width: 900px) {
-  .planificador-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
+@media (max-width: 900px) { .planificador-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
   .planificador-grid { grid-template-columns: minmax(0, 1fr); }
   .planificador-contador { margin-left: 0; width: 100%; }
@@ -383,98 +226,218 @@ body {
 
 .planificador-error-general:not(:empty) { margin-bottom: 8px; font-weight: 600; }
 
-/* ===== G5-LIS · inicio · Estilos del módulo Lista de Mercado (Samudio) =====
-   Se mantienen aislados con el prefijo listamercado-. */
+/* ===== G5-LIS · inicio · Estilos Lista de Mercado (Samudio) ===== */
 
-.listamercado-contenedor {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-}
+.listamercado-contenedor { display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
 
 .listamercado-fieldset {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: 450px;
-  border-top: 5px solid #d35400;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  margin: 0 auto;
+  background: #ffffff; padding: 30px; border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); width: 100%; max-width: 450px;
+  border-top: 5px solid #d35400; border-left: none; border-right: none;
+  border-bottom: none; margin: 0 auto;
 }
-
 .listamercado-legend {
-  color: #2c3e50;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-  width: 100%;
+  color: #2c3e50; font-size: 1.5rem; font-weight: bold;
+  text-align: center; margin-bottom: 20px; width: 100%;
 }
-
-.listamercado-grupo-form {
-  margin-bottom: 18px;
+.listamercado-grupo-form { margin-bottom: 18px; }
+.listamercado-label { display: block; font-weight: 600; margin-bottom: 6px; color: #34495e; }
+.listamercado-input, .listamercado-select {
+  width: 100%; padding: 11px; border: 1px solid #bdc3c7;
+  border-radius: 6px; box-sizing: border-box; font-size: 0.95rem;
 }
-
-.listamercado-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: #34495e;
-}
-
-.listamercado-input,
-.listamercado-select {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #bdc3c7;
-  border-radius: 6px;
-  box-sizing: border-box;
-  font-size: 0.95rem;
-}
-
-.listamercado-input:focus,
-.listamercado-select:focus {
-  border-color: #d35400;
-  outline: none;
-}
-
-.listamercado-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-}
+.listamercado-input:focus, .listamercado-select:focus { border-color: #d35400; outline: none; }
+.listamercado-btn { width: 100%; padding: 12px; margin-top: 10px; }
 
 .listamercado-alerta-exito {
-  margin-top: 20px;
-  padding: 12px;
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.9rem;
+  margin-top: 20px; padding: 12px; background-color: #d4edda; color: #155724;
+  border: 1px solid #c3e6cb; border-radius: 6px; text-align: center;
+  font-weight: 600; font-size: 0.9rem;
 }
-
 .listamercado-alerta-error {
-  margin-top: 20px;
-  padding: 12px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.9rem;
+  margin-top: 20px; padding: 12px; background-color: #f8d7da; color: #721c24;
+  border: 1px solid #f5c6cb; border-radius: 6px; text-align: center;
+  font-weight: 600; font-size: 0.9rem;
 }
-
-.listamercado-oculto {
-  display: none;
-}
+.listamercado-oculto { display: none; }
 
 /* ===== G5-LIS · fin ===== */
+
+/* ===== G5-CAL-F01 · inicio · Calendario semanal ===== */
+
+.planificador-calendario-semana {
+  background: var(--pl-blanco); border: 1px solid var(--pl-borde-tarjeta);
+  border-radius: var(--pl-radio-tarjeta); padding: 24px;
+  margin-bottom: 30px; box-shadow: var(--pl-sombra);
+}
+.planificador-calendario-encabezado { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.planificador-calendario-titulo { margin: 0; font-size: 22px; font-weight: 700; color: var(--pl-verde); }
+.planificador-form-semana { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.planificador-form-semana input[type="number"] {
+  border: 1px solid var(--pl-gris-borde); padding: 9px 16px;
+  border-radius: 20px; font: inherit; width: 120px;
+}
+.planificador-calendario-contenido { min-height: 200px; display: flex; flex-direction: column; gap: 16px; }
+.planificador-calendario-vacio {
+  padding: 30px 20px; text-align: center; color: var(--pl-texto-secundario);
+  border: 2px dashed var(--pl-borde-tarjeta); border-radius: var(--pl-radio-tarjeta);
+}
+.planificador-calendario-cargando {
+  padding: 20px; text-align: center; color: var(--pl-texto-secundario);
+  font-style: italic;
+}
+.planificador-calendario-plan { display: flex; flex-direction: column; gap: 8px; }
+.planificador-calendario-plan-nombre { margin: 0; font-size: 18px; font-weight: 700; color: var(--pl-texto); }
+.planificador-calendario-plan-fecha { margin: 0 0 8px; font-size: 14px; color: var(--pl-texto-secundario); }
+
+/* Calendario responsive: 7 columnas en escritorio, 4 en tablet, 2 en móvil */
+.planificador-calendario-plan .planificador-dias { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+@media (max-width: 900px) { .planificador-calendario-plan .planificador-dias { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .planificador-calendario-plan .planificador-dias { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ===== G5-CAL-F01 · fin ===== */
+
+/* ===== G5-CAL-F01 · inicio · Tarjeta de día (.planificador-dia-card) ===== */
+
+.planificador-dia-card {
+  background: var(--pl-blanco); color: var(--pl-texto);
+  border: 1px solid var(--pl-borde-tarjeta); border-radius: 12px;
+  padding: 8px 5px 10px; display: flex; flex-direction: column; gap: 6px;
+  cursor: default; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.planificador-dia-card:hover {
+  border-color: var(--pl-verde); box-shadow: 0 2px 8px rgba(45, 90, 39, 0.15);
+}
+.planificador-dia-card-encabezado {
+  display: flex; justify-content: space-between; align-items: center; padding: 0 4px;
+}
+
+/* ===== G5-CAL-F02 · inicio · Slots de recetas ===== */
+
+.planificador-receta-slots { display: grid; grid-template-columns: 1fr; gap: 4px; }
+.planificador-receta-slot {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  padding: 6px 8px; border-radius: 8px; border: 1px solid transparent;
+  font-size: 11px; cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  min-width: 0; width: 100%; box-sizing: border-box; text-align: left;
+}
+.planificador-receta-slot:hover, .planificador-receta-slot:focus-visible {
+  outline: 2px solid var(--pl-verde); outline-offset: 1px;
+}
+.planificador-receta-slot-tiempo {
+  font-weight: 700; color: var(--pl-texto-tenue); text-transform: uppercase;
+  letter-spacing: 0.3px; font-size: 9px; line-height: 1.1; width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.planificador-receta-slot-receta {
+  font-weight: 600; color: var(--pl-texto); font-size: 11px; width: 100%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.planificador-receta-slot-ocupado {
+  background: var(--pl-verde-claro); border-color: var(--pl-verde-claro);
+}
+.planificador-receta-slot-ocupado .planificador-receta-slot-receta { color: var(--pl-verde); }
+.planificador-receta-slot-vacio {
+  background: repeating-linear-gradient(45deg, #ece3d1 0 6px, #f5efe3 6px 12px);
+  border-color: #ece3d1;
+}
+.planificador-receta-slot-vacio .planificador-receta-slot-receta {
+  color: var(--pl-texto-tenue); font-weight: 500; font-style: italic;
+}
+
+/* ===== G5-CAL-F02 · fin ===== */
+
+/* Evita scroll horizontal en móvil (URL larga del API y fieldset de Lista de Mercado) */
+.planificador-api-captura-descripcion code { overflow-wrap: anywhere; }
+.listamercado-fieldset { min-width: 0; box-sizing: border-box; }
+
+@media (max-width: 600px) {
+  .planificador-calendario-semana { padding: 16px; }
+  .planificador-receta-slot-tiempo { font-size: 9px; }
+  .planificador-receta-slot-receta { font-size: 11px; }
+}
+
+/* ===== G5-API · inicio · Captura de datos desde MockAPI ===== */
+
+.planificador-api-captura {
+  background: var(--pl-blanco); border: 1px solid var(--pl-borde-tarjeta);
+  border-radius: var(--pl-radio-tarjeta); padding: 24px;
+  margin-bottom: 30px; box-shadow: var(--pl-sombra);
+}
+.planificador-api-captura-encabezado {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 16px;
+}
+.planificador-api-captura-titulo { margin: 0; font-size: 20px; font-weight: 700; color: var(--pl-verde); }
+.planificador-api-captura-estado { font-size: 13px; color: var(--pl-texto-secundario); font-style: italic; }
+
+.planificador-btn-cargar-api {
+  background: var(--pl-verde); color: var(--pl-blanco); border: none;
+  padding: 10px 20px; border-radius: var(--pl-radio-boton);
+  font: inherit; font-weight: 600; cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+.planificador-btn-cargar-api:hover { background: var(--pl-verde-hover); }
+.planificador-btn-cargar-api:disabled {
+  background: var(--pl-gris-borde); color: var(--pl-texto-secundario);
+  cursor: not-allowed; opacity: 0.7;
+}
+
+.planificador-api-captura-lista {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px; min-height: 80px;
+}
+
+@keyframes planificador-api-captura-fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.planificador-api-captura-card {
+  background: var(--pl-crema); border: 1px solid var(--pl-verde-claro);
+  border-left: 4px solid var(--pl-verde); border-radius: 10px;
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+  animation: planificador-api-captura-fadein 0.35s ease-out both;
+}
+.planificador-api-captura-card-cuerpo {
+  margin: 0; display: grid;
+  grid-template-columns: minmax(80px, max-content) 1fr;
+  gap: 4px 10px; font-size: 12px;
+}
+.planificador-api-captura-card-clave {
+  color: var(--pl-texto-tenue); font-weight: 700; text-transform: none;
+  letter-spacing: 0.2px; margin: 0;
+}
+.planificador-api-captura-card-valor {
+  color: var(--pl-texto); font-weight: 600; margin: 0;
+  word-break: break-word; overflow-wrap: anywhere;
+}
+.planificador-api-captura-card-id {
+  font-size: 11px; font-weight: 700; color: var(--pl-texto-tenue);
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.planificador-api-captura-cargando {
+  padding: 30px 20px; text-align: center; color: var(--pl-verde);
+  font-weight: 600; font-style: italic; background: var(--pl-verde-claro);
+  border-radius: var(--pl-radio-boton); grid-column: 1 / -1;
+}
+.planificador-api-captura-error {
+  padding: 14px 18px; background: #fde8e8; color: var(--pl-eliminar-texto);
+  border: 1px solid #f5c6cb; border-left: 4px solid var(--pl-eliminar-texto);
+  border-radius: var(--pl-radio-boton); font-weight: 600; font-size: 13px;
+  grid-column: 1 / -1;
+}
+.planificador-api-captura-vacio {
+  padding: 20px; text-align: center; color: var(--pl-texto-secundario);
+  font-style: italic; background: var(--pl-crema);
+  border-radius: var(--pl-radio-boton); grid-column: 1 / -1;
+}
+.planificador-api-captura-dias { border-top: 1px solid var(--pl-verde-claro); padding-top: 8px; }
+.planificador-api-captura-dias-titulo { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: var(--pl-texto-tenue); text-transform: none; }
+.planificador-api-captura-dias-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--pl-texto); }
+.planificador-api-captura-dias-item { overflow-wrap: anywhere; }
+.planificador-api-captura-dias-vacio { margin: 0; font-size: 12px; color: var(--pl-texto-secundario); font-style: italic; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .planificador-api-captura-lista { grid-template-columns: minmax(0, 1fr); } }
+
+/* ===== G5-API · fin ===== */

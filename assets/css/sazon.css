@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --verde-noche: #114622;
+  --verde-hondo: #215b33;
+  --verde: #3d8e33;
+  --hoja: #7fba00;
+  --teal: #569e8f;
+  --rojo: #d6121a;
+  --tinta: #2a1605;
+  --texto: #3f4040;
+  --gris: #989898;
+  --crema: #f4f4e8;
+  --crema-2: #e9e8d7;
+  --card: #ffffff;
+  --linea: #dad9c4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: var(--texto);
+  background: var(--crema);
+}
+
+a {
+  color: inherit;
+}
+
+.contenedor {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+}
+
+.topbar {
+  border-bottom: 1px solid var(--linea);
+  background: var(--crema);
+}
+
+.topbar-interno {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.marca {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--verde-hondo);
+  text-decoration: none;
+}
+
+.navegacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.navegacion a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+}
+
+.navegacion a:hover,
+.navegacion a.activo {
+  background: var(--crema-2);
+  color: var(--verde-hondo);
+}
+
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primario {
+  background: var(--hoja);
+  color: #fff;
+}
+
+.btn-secundario {
+  border-color: var(--verde-hondo);
+  color: var(--verde-hondo);
+  background: transparent;
+}
+
+.hero {
+  margin: 2rem 0 1.5rem;
+  padding: 2rem;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--verde-noche), var(--verde));
+}
+
+.hero-etiqueta {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #d8ecba;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.hero-texto {
+  margin: 0.8rem 0 0;
+  max-width: 55ch;
+}
+
+.modulos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.tarjeta-modulo {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--linea);
+  border-left: 5px solid var(--verde);
+  border-radius: 14px;
+  padding: 1rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta-modulo:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(17, 70, 34, 0.12);
+}
+
+.tarjeta-modulo h2 {
+  margin: 0 0 0.35rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+}
+
+.tarjeta-modulo p {
+  margin: 0;
+  color: #5b5e60;
+}
+
+.tarjeta-catalogo {
+  border-left-color: #3d8e33;
+}
+
+.tarjeta-usuarios {
+  border-left-color: #215b33;
+}
+
+.tarjeta-recetario {
+  border-left-color: #569e8f;
+}
+
+.tarjeta-despensa {
+  border-left-color: #f1c85c;
+}
+
+.tarjeta-nutricion {
+  border-left-color: #7fba00;
+}
+
+.tarjeta-planificador {
+  border-left-color: #ea885c;
+}
+
+.tarjeta-comunidad {
+  border-left-color: #ce9754;
+}
+
+.tarjeta-mercadeo {
+  border-left-color: #d6121a;
+}
+
+.pagina-modulo {
+  padding: 2rem 0;
+}
+
+.bloque-modulo {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.bloque-modulo h1 {
+  margin-top: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.mensaje-estado {
+  margin-top: 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #cfe3b8;
+  border-radius: 10px;
+  background: #edf4e1;
+  color: var(--verde-hondo);
+}
+
+.site-footer {
+  margin-top: 2rem;
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--linea);
+  font-size: 0.9rem;
+  color: #5b5e60;
+}
+
+@media (max-width: 900px) {
+  .topbar-interno {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 0.8rem 0;
+  }
+}

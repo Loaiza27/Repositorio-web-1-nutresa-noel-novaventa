@@ -1,0 +1,103 @@
+.usuarios-paneles,
+.usuarios-formularios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.usuarios-paneles-oculto {
+  display: none;
+}
+
+.usuarios-columna h2 {
+  margin-top: 0;
+  margin-bottom: 0.7rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+.usuarios-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+}
+
+.usuarios-tabla caption {
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.usuarios-tabla th,
+.usuarios-tabla td {
+  border-bottom: 1px solid var(--linea);
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  font-size: 0.92rem;
+}
+
+.usuarios-tabla th {
+  background: var(--crema-2);
+}
+
+.sesiones-lista {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.sesion-item {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--verde);
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.sesion-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.sesion-item p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: #5b5e60;
+}
+
+form fieldset {
+  border: 1px solid var(--linea);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0;
+  background: #fff;
+}
+
+form legend {
+  padding: 0 0.3rem;
+  font-weight: 700;
+}
+
+form label {
+  display: block;
+  margin: 0.6rem 0 0.25rem;
+  font-weight: 600;
+}
+
+form input,
+form select {
+  width: 100%;
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  padding: 0.55rem;
+  font: inherit;
+}
+
+form button {
+  margin-top: 0.8rem;
+}

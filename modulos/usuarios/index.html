@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sazón · Usuarios</title>
+  <link rel="stylesheet" href="../../assets/css/sazon.css">
+  <link rel="stylesheet" href="usuarios.css">
+</head>
+<body>
+  <header data-layout="header"></header>
+
+  <main class="contenedor pagina-modulo">
+    <section class="bloque-modulo">
+      <h1>Módulo común de usuarios</h1>
+      <p>Demo docente con usuarios registrados y sesiones activas, usando datos mock en <code>data/usuario.js</code>.</p>
+      <p id="usuarios-alerta" class="mensaje-estado" role="status"></p>
+      <button id="toggle-listado-usuarios" class="btn btn-secundario" type="button" aria-expanded="false">
+        Ver listado temporal de usuarios
+      </button>
+    </section>
+
+    <section id="panel-listado-usuarios" class="usuarios-paneles usuarios-paneles-oculto" aria-label="Panel de usuarios">
+      <article class="usuarios-columna">
+        <h2>Usuarios registrados</h2>
+        <div class="tabla-contenedor">
+          <table class="usuarios-tabla">
+            <caption>Listado de usuarios creados</caption>
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Rol</th>
+              </tr>
+            </thead>
+            <tbody id="usuarios-registrados-body"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="usuarios-columna">
+        <h2>Usuarios logeados</h2>
+        <div id="usuarios-logeados-lista" class="sesiones-lista"></div>
+      </article>
+    </section>
+
+    <section class="usuarios-formularios" aria-label="Formulario de usuarios">
+      <article class="bloque-modulo">
+        <h2 id="registro">Registro de usuario (mock)</h2>
+        <form id="form-registro">
+          <fieldset>
+            <legend>Nuevo usuario</legend>
+            <label for="registro-nombre">Nombre</label>
+            <input id="registro-nombre" name="nombreUsuario" type="text" required>
+
+            <label for="registro-correo">Correo</label>
+            <input id="registro-correo" name="correo" type="email" required>
+
+            <label for="registro-rol">Rol</label>
+            <select id="registro-rol" name="rol" required>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+
+            <button class="btn btn-primario" type="submit">Registrar</button>
+          </fieldset>
+        </form>
+      </article>
+
+      <article class="bloque-modulo">
+        <h2 id="login">Iniciar sesión (mock)</h2>
+        <form id="form-login">
+          <fieldset>
+            <legend>Acceso de usuario</legend>
+            <label for="login-correo">Correo</label>
+            <input id="login-correo" name="correo" type="email" required>
+            <button class="btn btn-secundario" type="submit">Iniciar sesión</button>
+          </fieldset>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <footer data-layout="footer"></footer>
+
+  <script src="../../services/api.config.js"></script>
+  <script src="../../data/usuario.js"></script>
+  <script src="usuario.servicio.js"></script>
+  <script src="../../assets/js/layout.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

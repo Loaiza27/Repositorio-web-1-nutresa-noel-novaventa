@@ -1,25 +1,24 @@
-// 1. Datos simulados del Backend
-const recetasPlan = 4;
-const despensaUsuario = [
-    { ingrediente: 'Arroz integral', cantidad: 1 }, // El usuario ya tiene 1 kg
-    { ingrediente: 'Espinacas tiernas', cantidad: 200 } // El usuario ya tiene 200 g
-];
+const API_URL = 'https://6adfa4d38e42963c8d5e4081.mockapi.io/api/v1'; 
 
-const ingredientesNecesarios = [
-    { ingrediente: 'Pollo / Pechuga fresca', cantidad: 2, unidad: 'kg' },
-    { ingrediente: 'Arroz integral', cantidad: 1, unidad: 'kg' },
-    { ingrediente: 'Espinacas tiernas', cantidad: 500, unidad: 'g' },
-    { ingrediente: 'Tomate chonto', cantidad: 3, unidad: 'kg' }];
+// Consulta de datos a la API
+async function obtenerDatosAPI() {
+    try {
+        const respuesta = await fetch(`${API_URL}/planificador/1`);
+        const datos = await respuesta.json();
+        return datos;
+    } catch (error) {
+        console.error("Error conectando a la API:", error);
+        return null;
+    }
+}
 
-// 2. Módulo de Lógica Pura: Algoritmo de resta de ingredientes
+// Algoritmo de consolidación de ingredientes
 function consolidarLista(necesarios, despensa) {
     let listaFinal = [];
     let itemsEnDespensa = 0;
 
     necesarios.forEach(req => {
-        // Buscar si el ingrediente ya existe en la despensa del usuario
         const enDespensa = despensa.find(item => item.ingrediente === req.ingrediente);
-
         if (enDespensa) {
             const cantidadFaltante = req.cantidad - enDespensa.cantidad;
             if (cantidadFaltante > 0) {
@@ -27,7 +26,6 @@ function consolidarLista(necesarios, despensa) {
             }
             itemsEnDespensa++;
         } else {
-            // Si no está en la despensa, se debe comprar completo
             listaFinal.push(req);
         }
     });
@@ -35,26 +33,24 @@ function consolidarLista(necesarios, despensa) {
     return { listaFinal, itemsEnDespensa };
 }
 
-// 3. Renderizado y actualización dinámica del DOM
-function actualizarInterfaz() {
+// Renderizado en el DOM
+async function actualizarInterfaz() {
     const contenedor = document.getElementById('contenedor-lista-mercado');
-    contenedor.innerHTML = '<li style="color: #6b7280;">Consolidando ingredientes...</li>';
+    contenedor.innerHTML = '<li style="color: #6b7280; padding: 0.75rem;">Conectando con la API y consolidando...</li>';
 
-    setTimeout(() => {
-        // Ejecutar el algoritmo
-        const { listaFinal, itemsEnDespensa } = consolidarLista(ingredientesNecesarios, despensaUsuario);
+    const datosAPI = await obtenerDatosAPI();
 
-        // Actualizar métricas del panel superior (HU 5.3.3)
-        document.getElementById('stat-recetas').textContent = recetasPlan;
+    if (datosAPI) {
+        const { listaFinal, itemsEnDespensa } = consolidarLista(datosAPI.ingredientesNecesarios, datosAPI.despensaUsuario);
+
+        document.getElementById('stat-recetas').textContent = datosAPI.recetasPlan;
         document.getElementById('stat-despensa').textContent = itemsEnDespensa;
         document.getElementById('stat-comprar').textContent = listaFinal.length;
 
-        // Limpiar y renderizar la lista final
         contenedor.innerHTML = '';
         listaFinal.forEach(item => {
             const li = document.createElement('li');
             li.className = 'planificador-lista-item';
-            // Estilos en línea aplicados mediante JS para mantener el diseño
             li.style.padding = '0.75rem';
             li.style.backgroundColor = '#f9fafb';
             li.style.border = '1px solid #e5e7eb';
@@ -68,20 +64,16 @@ function actualizarInterfaz() {
             `;
             contenedor.appendChild(li);
         });
-    }, 600); // Simulando el "await" de un servidor real
+    }
 }
 
-// Inicializar la vista
 document.addEventListener('DOMContentLoaded', actualizarInterfaz);
 
-// HU 5.3.2: Botón Generar Lista con alerta
 document.getElementById('btn-generar').addEventListener('click', () => {
     const alerta = document.getElementById('alerta-exito');
     alerta.classList.remove('hidden');
-    
-    // Forzar una re-consolidación visual
     actualizarInterfaz();
-
+    
     setTimeout(() => {
         alerta.classList.add('hidden');
     }, 3000);

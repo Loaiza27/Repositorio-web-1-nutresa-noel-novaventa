@@ -1,59 +1,87 @@
-// Simulación del servicio para que puedas probar la vista localmente
-const planServicio = {
-    obtenerListaMercado: async (idPlan) => {
-        // Simula la espera del servidor
-        await new Promise(resolve => setTimeout(resolve, 600));
-        return [
-            { ingrediente: 'Pollo / Pechuga fresca', cantidad: '2 kg' },
-            { ingrediente: 'Arroz integral', cantidad: '1 kg' },
-            { ingrediente: 'Espinacas tiernas', cantidad: '500 g' },
-            { ingrediente: 'Tomate chonto (con tilde y eñe para probar UTF-8)', cantidad: '3 kg' }
-        ];
-    }
-};
+// 1. Datos simulados del Backend
+const recetasPlan = 4;
+const despensaUsuario = [
+    { ingrediente: 'Arroz integral', cantidad: 1 }, // El usuario ya tiene 1 kg
+    { ingrediente: 'Espinacas tiernas', cantidad: 200 } // El usuario ya tiene 200 g
+];
 
-async function renderizarListaMercado(idPlan) {
-    const contenedor = document.getElementById('contenedor-lista-mercado');
-    contenedor.innerHTML = '<li class="text-gray-500">Consolidando ingredientes...</li>';
+const ingredientesNecesarios = [
+    { ingrediente: 'Pollo / Pechuga fresca', cantidad: 2, unidad: 'kg' },
+    { ingrediente: 'Arroz integral', cantidad: 1, unidad: 'kg' },
+    { ingrediente: 'Espinacas tiernas', cantidad: 500, unidad: 'g' },
+    { ingrediente: 'Tomate chonto', cantidad: 3, unidad: 'kg' }];
 
-    try {
-        // Criterio 1: Consumo asíncrono con await
-        const lista = await planServicio.obtenerListaMercado(idPlan);
-        contenedor.innerHTML = ''; 
+// 2. Módulo de Lógica Pura: Algoritmo de resta de ingredientes
+function consolidarLista(necesarios, despensa) {
+    let listaFinal = [];
+    let itemsEnDespensa = 0;
 
-        if (lista.length === 0) {
-            contenedor.innerHTML = '<li class="text-gray-500">No hay ingredientes en este plan.</li>';
-            return;
+    necesarios.forEach(req => {
+        // Buscar si el ingrediente ya existe en la despensa del usuario
+        const enDespensa = despensa.find(item => item.ingrediente === req.ingrediente);
+
+        if (enDespensa) {
+            const cantidadFaltante = req.cantidad - enDespensa.cantidad;
+            if (cantidadFaltante > 0) {
+                listaFinal.push({ ingrediente: req.ingrediente, cantidad: cantidadFaltante, unidad: req.unidad });
+            }
+            itemsEnDespensa++;
+        } else {
+            // Si no está en la despensa, se debe comprar completo
+            listaFinal.push(req);
         }
+    });
 
-        // Criterio 2: Marcado semántico con clase prefijada
-        lista.forEach(item => {
+    return { listaFinal, itemsEnDespensa };
+}
+
+// 3. Renderizado y actualización dinámica del DOM
+function actualizarInterfaz() {
+    const contenedor = document.getElementById('contenedor-lista-mercado');
+    contenedor.innerHTML = '<li style="color: #6b7280;">Consolidando ingredientes...</li>';
+
+    setTimeout(() => {
+        // Ejecutar el algoritmo
+        const { listaFinal, itemsEnDespensa } = consolidarLista(ingredientesNecesarios, despensaUsuario);
+
+        // Actualizar métricas del panel superior (HU 5.3.3)
+        document.getElementById('stat-recetas').textContent = recetasPlan;
+        document.getElementById('stat-despensa').textContent = itemsEnDespensa;
+        document.getElementById('stat-comprar').textContent = listaFinal.length;
+
+        // Limpiar y renderizar la lista final
+        contenedor.innerHTML = '';
+        listaFinal.forEach(item => {
             const li = document.createElement('li');
-            li.className = 'planificador-lista-item p-3 bg-gray-50 border border-gray-200 rounded flex justify-between'; 
+            li.className = 'planificador-lista-item';
+            // Estilos en línea aplicados mediante JS para mantener el diseño
+            li.style.padding = '0.75rem';
+            li.style.backgroundColor = '#f9fafb';
+            li.style.border = '1px solid #e5e7eb';
+            li.style.borderRadius = '0.375rem';
+            li.style.display = 'flex';
+            li.style.justifyContent = 'space-between';
             
             li.innerHTML = `
-                <span class="font-medium text-gray-700">${item.ingrediente}</span>
-                <span class="font-bold text-gray-900">${item.cantidad}</span>
+                <span style="font-weight: 500; color: #374151;">${item.ingrediente}</span>
+                <span style="font-weight: bold; color: #111827;">${item.cantidad} ${item.unidad}</span>
             `;
             contenedor.appendChild(li);
         });
-
-    } catch (error) {
-        // Criterio 1: Manejo de errores con catch
-        console.error('Error al obtener la lista de mercado:', error);
-        contenedor.innerHTML = '<li class="text-red-600 font-bold">Error al cargar los datos. Intente nuevamente.</li>';
-    }
+    }, 600); // Simulando el "await" de un servidor real
 }
 
-// Ejecutar la función al cargar la página (usando un ID de prueba)
-document.addEventListener('DOMContentLoaded', () => {
-    renderizarListaMercado(101);
-});
+// Inicializar la vista
+document.addEventListener('DOMContentLoaded', actualizarInterfaz);
 
+// HU 5.3.2: Botón Generar Lista con alerta
 document.getElementById('btn-generar').addEventListener('click', () => {
     const alerta = document.getElementById('alerta-exito');
     alerta.classList.remove('hidden');
     
+    // Forzar una re-consolidación visual
+    actualizarInterfaz();
+
     setTimeout(() => {
         alerta.classList.add('hidden');
     }, 3000);

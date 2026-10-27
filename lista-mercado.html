@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Mercado Generada</title>
+        <link rel="stylesheet" href="assets/css/sazon.css">
     <style>
         body { background-color: #f9fafb; font-family: system-ui, -apple-system, sans-serif; padding: 1.5rem; color: #1f2937; }
         main { max-width: 42rem; margin: 0 auto; background: #ffffff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -14,6 +15,39 @@
         .contenedor-btn { margin-top: 1.5rem; text-align: right; }
         .alerta { margin-top: 1rem; padding: 0.75rem; background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; border-radius: 0.375rem; text-align: center; font-weight: 600; }
         .hidden { display: none !important; }
+                /* ===== G5-CHK · inicio ===== */
+        #contenedor-lista-mercado { list-style: none; padding-left: 0; }
+
+        .planificador-lista-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--card);
+            border: 1px solid var(--linea);
+            border-radius: 0.375rem;
+        }
+
+        .planificador-lista-item input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex: none;
+            accent-color: var(--verde-hondo);
+            cursor: pointer;
+        }
+
+        .planificador-lista-item label {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            cursor: pointer;
+            color: var(--texto);
+        }
+
+        .planificador-item-comprado { background: var(--crema-2); }
+        .planificador-item-tachado { text-decoration: line-through; }
+        /* ===== G5-CHK · fin ===== */
     </style>
 </head>
 <body>

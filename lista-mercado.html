@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Mercado Generada</title>
+    <style>
+        body { background-color: #f9fafb; font-family: system-ui, -apple-system, sans-serif; padding: 1.5rem; color: #1f2937; }
+        main { max-width: 42rem; margin: 0 auto; background: #ffffff; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h2 { font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; color: #1f2937; }
+        ul { list-style: disc; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .btn-generar { background-color: #15803d; color: white; font-weight: bold; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; cursor: pointer; transition: background-color 0.2s; }
+        .btn-generar:hover { background-color: #166534; }
+        .contenedor-btn { margin-top: 1.5rem; text-align: right; }
+        .alerta { margin-top: 1rem; padding: 0.75rem; background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; border-radius: 0.375rem; text-align: center; font-weight: 600; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <main>
+
+        <!-- Panel de Resumen (HU 5.3.3) -->
+        <div class="planificador-resumen-card" style="background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid #d35400;">
+            <h3 style="font-size: 1rem; font-weight: bold; margin-bottom: 0.5rem; margin-top: 0; color: #374151;">Resumen de Compras</h3>
+            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: #4b5563;">
+                <div><strong>Recetas del plan:</strong> <span id="stat-recetas">4</span></div>
+                <div><strong>Ya en despensa:</strong> <span id="stat-despensa">6</span> ítems</div>
+                <div><strong>Por comprar:</strong> <span id="stat-comprar">9</span> ítems</div>
+            </div>
+        </div>
+
+        <h2>Lista de Mercado del Plan</h2>
+        
+        <ul id="contenedor-lista-mercado">
+            <!-- Los ítems se inyectan dinámicamente aquí -->
+        </ul>
+        
+        <div class="contenedor-btn">
+            <button id="btn-generar" class="btn-generar">
+                Generar lista
+            </button>
+        </div>
+        
+        <div id="alerta-exito" role="alert" class="alerta hidden">
+            ¡Lista generada y consolidada con éxito!
+        </div>
+    </main>
+
+    <script src="lista-mercado.js"></script>
+</body>
+</html>

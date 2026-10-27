@@ -322,7 +322,10 @@
   });
 })();
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> upstream/develop
 /* ===== G5-API · historial real desde MockAPI (a través de planApiServicio) ===== */
 (function () {
   "use strict";
@@ -391,26 +394,60 @@
     contenedor.append(...lista.map(crearTarjeta));
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("planificador-btn-cargar-api");
-    const lista = document.getElementById("planificador-api-captura-lista");
-    const estado = document.getElementById("planificador-api-captura-estado");
-    if (!btn || !lista || !estado) return;
-    async function cargar() {
-      btn.disabled = true; btn.textContent = "Cargando…"; estado.textContent = "Solicitando…";
-      lista.replaceChildren(crearElemento("div", "planificador-api-captura-cargando", "Cargando desde MockAPI…"));
-      try {
-        const registros = await window.planApiServicio.listar();
-        const locales = await window.planSemanalServicio.listarTodos();
-        renderizar(prepararHistorial(registros, locales), lista, estado);
+  /* ---- Consulta asíncrona (misma estructura del ejemplo de clase, con los datos de planSemanal) ---- */
+  const consultarAPI = async () => {
+    let url = "https://6ada65867512f497b3ffe9ee.mockapi.io/api/v1/planSemanal";
+    try {
+      // 1. Petición HTTP GET al servidor remoto
+      const respuesta = await fetch(url);
+
+      // Validación de estado HTTP (ej. si la URL no existe o hay error 404/500)
+      if (!respuesta.ok) {
+        throw new Error(`Error de red: ${respuesta.status}`);
       }
-      catch (error) { lista.replaceChildren(crearElemento("div", "planificador-api-captura-error", `No se pudo cargar: ${error.message}`)); estado.textContent = "Error"; }
-      finally { btn.disabled = false; btn.textContent = "Cargar desde API"; }
+
+      // 2. Transformación de la respuesta cruda a JSON nativo
+      const datosPlanes = await respuesta.json();
+
+      console.log("Planes obtenidos del servidor:", datosPlanes);
+      return datosPlanes;
+    } catch (error) {
+      console.error("Fallo en la petición asincrónica:", error.message);
     }
-    btn.addEventListener("click", cargar);
-    window.planificadorHistorialApi = { recargar: cargar };
-  });
+  };
+
+  consultarAPI();
+
+  let section = document.querySelector("#planificador-api-captura");
+  console.log(section);
+
+  let btnCargar = document.querySelector("#planificador-btn-cargar-api");
+  console.log(btnCargar);
+
+  let lista = document.querySelector("#planificador-api-captura-lista");
+  let estado = document.querySelector("#planificador-api-captura-estado");
+
+  async function cargar() {
+    btnCargar.disabled = true; btnCargar.textContent = "Cargando…"; estado.textContent = "Solicitando…";
+    lista.replaceChildren(crearElemento("div", "planificador-api-captura-cargando", "Cargando desde MockAPI…"));
+    let datos = await consultarAPI();
+    console.log(datos);
+    if (!Array.isArray(datos)) {
+      lista.replaceChildren(crearElemento("div", "planificador-api-captura-error", "No se pudo cargar los planes desde MockAPI. Revisa la consola."));
+      estado.textContent = "Error";
+    } else {
+      const locales = await window.planSemanalServicio.listarTodos();
+      renderizar(prepararHistorial(datos, locales), lista, estado);
+    }
+    btnCargar.disabled = false; btnCargar.textContent = "Cargar desde API";
+  }
+
+  btnCargar.addEventListener("click", cargar);
+  window.planificadorHistorialApi = { recargar: cargar };
 })();
+<<<<<<< HEAD
+/* ===== G5-API · fin ===== */
+=======
 /* ===== G5-API · fin ===== */
 
 // ===== G5-COM · ComidaPlanificada · inicio =====
@@ -539,3 +576,4 @@
 
 // ===== G5-COM · ComidaPlanificada · fin =====
 
+>>>>>>> upstream/develop

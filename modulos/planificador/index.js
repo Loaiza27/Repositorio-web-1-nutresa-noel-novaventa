@@ -322,7 +322,7 @@
   });
 })();
 
-<<<<<<< HEAD
+
 /* ===== G5-API · historial real desde MockAPI (a través de planApiServicio) ===== */
 (function () {
   "use strict";
@@ -412,7 +412,7 @@
   });
 })();
 /* ===== G5-API · fin ===== */
-=======
+
 // ===== G5-COM · ComidaPlanificada · inicio =====
 (function () {
   const ID_PLAN_SEMANAL = 1;
@@ -538,4 +538,4 @@
 })();
 
 // ===== G5-COM · ComidaPlanificada · fin =====
->>>>>>> upstream/develop
+

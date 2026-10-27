@@ -95,65 +95,7 @@
       </form>
       <div id="listamercado-mensaje" class="listamercado-oculto"></div>
     </section>
-    <!-- ===== G5-LIS · inicio ===== -->
-
-<section class="bloque-modulo listamercado-contenedor">
-
-    <form id="listamercado-form">
-
-        <fieldset class="listamercado-fieldset">
-
-            <legend class="listamercado-legend">Nueva Lista de Mercado</legend>
-
-
-
-            <div class="listamercado-grupo-form">
-
-                <label for="listamercado-nombre" class="listamercado-label">Nombre de la lista:</label>
-
-                <input type="text" id="listamercado-nombre" name="nombre" required placeholder="Ej. Mercado quincenal" class="listamercado-input">
-
-            </div>
-
-
-
-            <div class="listamercado-grupo-form">
-
-                <label for="listamercado-presupuesto" class="listamercado-label">Presupuesto estimado ($):</label>
-
-                <input type="number" id="listamercado-presupuesto" name="presupuesto" required min="0" step="1000" class="listamercado-input">
-
-            </div>
-
-
-
-            <div class="listamercado-grupo-form">
-
-                <label for="listamercado-idPlanSemanal" class="listamercado-label">Plan Semanal Asociado:</label>
-
-                <select id="listamercado-idPlanSemanal" name="idPlanSemanal" required class="listamercado-select">
-
-                    <option value="">Cargando planes semanales...</option>
-
-                </select>
-
-            </div>
-
-
-
-            <button type="submit" class="btn btn-primario listamercado-btn">Generar Lista de Mercado</button>
-
-        </fieldset>
-
-    </form>
-
-    
-
-    <div id="listamercado-mensaje" class="listamercado-oculto"></div>
-
-</section>
-
-<!-- ===== G5-LIS · fin ===== --> 
+  
 
     <!-- ===== G5-COM · ComidaPlanificada · inicio ===== -->
     <section class="bloque-modulo planificador" aria-labelledby="tituloComidas">
@@ -254,15 +196,10 @@
 
   <script src="../../services/api.config.js"></script>
   <script src="../../assets/js/layout.js"></script>
-<<<<<<< HEAD
-  <script src="servicio.js" charset="utf-8"></script>
-  <script src="index.js" charset="utf-8"></script>
-=======
   <script src="../../data/recetas.js"></script>
   <script src="../../data/planificador.js"></script>
-  <script src="servicio.js"></script>
+  <script src="servicio.js" charset="utf-8"></script>
   <script src="comidaplanificada.servicio.js"></script>
-  <script src="index.js"></script>
->>>>>>> upstream/develop
+  <script src="index.js" charset="utf-8"></script>
 </body>
 </html>

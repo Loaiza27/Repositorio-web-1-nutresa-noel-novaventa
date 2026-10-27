@@ -4,7 +4,7 @@ const API_URL = 'https://6adfa4d38e42963c8d5e4081.mockapi.io/api/v1';
 async function obtenerDatosAPI() {
     try {
         const respuesta = await fetch(`${API_URL}/planificador/1`);
-              
+                if (!respuesta.ok) throw new Error(`Error de red: ${respuesta.status}`);
         const datos = await respuesta.json();
         return datos;
     } catch (error) {
@@ -35,9 +35,23 @@ function consolidarLista(necesarios, despensa) {
 }
 
 // ===== G5-CHK · inicio =====
+let datosActuales = null;
 
-
-
+async function guardarCompradosAPI(lista) {
+    guardarComprados(lista); // respaldo local
+    if (!datosActuales) return; // sin datos cargados no se escribe nada
+    try {
+        const respuesta = await fetch(`${API_URL}/planificador/1`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...datosActuales, comprados: lista })
+        });
+        if (!respuesta.ok) throw new Error(`Error de red: ${respuesta.status}`);
+        datosActuales = await respuesta.json();
+    } catch (error) {
+        console.error('No se pudo guardar en MockAPI:', error);
+    }
+}
 const CLAVE_COMPRADOS = 'planificador-comprados';
 
 function leerComprados() {
@@ -75,7 +89,7 @@ function crearItemLista(item, indice, comprados) {
         aplicarEstado();
         const actuales = leerComprados().filter(n => n !== item.ingrediente);
         if (check.checked) actuales.push(item.ingrediente);
-        guardarComprados(actuales);
+        guardarCompradosAPI(actuales);
     });
 
     aplicarEstado();
@@ -90,7 +104,7 @@ async function actualizarInterfaz() {
     contenedor.innerHTML = '<li style="color: #6b7280; padding: 0.75rem;">Conectando con la API y consolidando...</li>';
 
     const datosAPI = await obtenerDatosAPI();
-        
+        datosActuales = datosAPI;
 
     if (datosAPI) {
         const { listaFinal, itemsEnDespensa } = consolidarLista(datosAPI.ingredientesNecesarios, datosAPI.despensaUsuario);
@@ -100,7 +114,7 @@ async function actualizarInterfaz() {
         document.getElementById('stat-comprar').textContent = listaFinal.length;
 
         contenedor.innerHTML = '';
-        const comprados = leerComprados();
+        const comprados = Array.isArray(datosAPI.comprados) ? datosAPI.comprados : leerComprados();
         listaFinal.forEach((item, i) => contenedor.appendChild(crearItemLista(item, i, comprados)));
         
     }
